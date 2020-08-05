@@ -52,6 +52,18 @@ const theme = createMuiTheme({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
+    h1: {
+      color: '#000',
+    },
+    h2: {
+      color: '#000',
+    },
+    h3: {
+      color: '#000',
+    },
+    h4: {
+      color: '#000',
+    },
     body1: {
       color: '#292929',
     },
