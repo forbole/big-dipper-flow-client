@@ -10,7 +10,7 @@ declare module "@material-ui/core/styles/createPalette" {
   }
 }
 // Create a theme instance.
-const theme = createMuiTheme({
+const Theme = createMuiTheme({
   palette: {
     primary: {
       main: '#1D86FF',
@@ -73,4 +73,4 @@ const theme = createMuiTheme({
   }
 });
 
-export default theme;
+export default Theme;
