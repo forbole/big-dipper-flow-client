@@ -3,11 +3,8 @@ import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/sty
 import { Hidden, Container, Box, Typography, AppBar, IconButton, Drawer, MenuItem, Toolbar } from '@material-ui/core'
 import List from '@material-ui/core/List'
 import ListItem, { ListItemProps } from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import MenuIcon from '@material-ui/icons/Menu'
-import InboxIcon from '@material-ui/icons/Inbox'
-import DraftsIcon from '@material-ui/icons/Drafts'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -38,8 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.common.white,
       color: theme.palette.common.black,
       '& a': {
-        padding: '0 0 0.15rem 0',
+        padding: '0 0 0.25rem 0',
         margin: '1rem',
+        transition: 'color 0.3s',
         '&:hover, &.active': {
           color: theme.palette.secondary.main,
           backgroundImage: 'url(/img/menu-hover.svg)',
