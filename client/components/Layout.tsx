@@ -1,15 +1,16 @@
-import React from 'react';
-import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import { Hidden, Container, Box, Typography, AppBar, IconButton, Drawer, MenuItem, Toolbar } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuIcon from '@material-ui/icons/Menu';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
+import React from 'react'
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles'
+import { Hidden, Container, Box, Typography, AppBar, IconButton, Drawer, MenuItem, Toolbar } from '@material-ui/core'
+import List from '@material-ui/core/List'
+import ListItem, { ListItemProps } from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import MenuIcon from '@material-ui/icons/Menu'
+import InboxIcon from '@material-ui/icons/Inbox'
+import DraftsIcon from '@material-ui/icons/Drafts'
 import Link from 'next/link'
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useRouter } from 'next/router'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,21 +28,36 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     mobileMenu: {
       width: 250,
+      '& a': {
+        display: 'block',
+        textDecoration: 'none',
+        width: '100%'
+      }
     },
     appBar: {
       backgroundColor: theme.palette.common.white,
       color: theme.palette.common.black,
-      'a': {
-        underline: 'none'
+      '& a': {
+        padding: '0 0 0.15rem 0',
+        margin: '1rem',
+        '&:hover, &.active': {
+          color: theme.palette.secondary.main,
+          backgroundImage: 'url(/img/menu-hover.svg)',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'left bottom',
+          backgroundColor: 'transparent',
+          backgroundSize: '100% 0.35rem'
+        }
       }
     }
   }),
 );
 
 const Layout = (props: { children: React.ReactNode; }) => {
-  const classes = useStyles();
-  const theme = useTheme();
-  const smMatches = useMediaQuery(theme.breakpoints.down('xs'));
+  const router = useRouter()
+  const classes = useStyles()
+  const theme = useTheme()
+  const smMatches = useMediaQuery(theme.breakpoints.down('xs'))
 
   const [drawerState, setState] = React.useState({
     top: false,
@@ -61,8 +77,21 @@ const Layout = (props: { children: React.ReactNode; }) => {
       return;
     }
 
-    setState({ ...drawerState, right: open });
-  };
+    setState({ ...drawerState, right: open })
+  }
+
+  const isActive = (path: string, isHome: boolean = false): string => {
+    let regexp: RegExp
+    if (isHome)
+      regexp = new RegExp("^/$")
+    else
+      regexp = new RegExp("^/"+path)
+
+    if (regexp.test(router.pathname))
+      return "active"
+    else
+      return ""
+  }
 
   return (
     <React.Fragment>
@@ -70,17 +99,18 @@ const Layout = (props: { children: React.ReactNode; }) => {
         <Toolbar>
           <Box pr={2} className={(smMatches) ? `${classes.title} ${classes.titleSM}` : classes.title}>
             <Typography variant="h5" component="h1">
-              <Link href="/">
-                <a><img src="/img/flow-logo.svg" /></a>
-              </Link>
+                <img src="/img/flow-logo.svg" />
             </Typography>
           </Box>
           <Hidden xsDown>
+            <Link href="/">
+              <MenuItem component="a" className={isActive("", true)}>Dashboard</MenuItem>
+            </Link>
             <Link href="/blocks">
-              <MenuItem component="a">Blocks</MenuItem>
+              <MenuItem component="a" className={isActive("blocks")}>Blocks</MenuItem>
             </Link>
             <Link href="/activities">
-              <MenuItem component="a">Activities</MenuItem>
+              <MenuItem component="a" className={isActive("activities")}>Activities</MenuItem>
             </Link>
           </Hidden>
           <Hidden smUp>
@@ -89,7 +119,12 @@ const Layout = (props: { children: React.ReactNode; }) => {
             </IconButton>
             <Drawer anchor='right' open={drawerState['right']} onClose={toggleDrawer(false)}>
               <div className={classes.mobileMenu}>
-                <List component="nav" aria-label="main mailbox folders">
+                <List component="nav" aria-label="dashboard blocks activities">
+                  <ListItem button>
+                    <Link href="/">
+                      <a><ListItemText primary="Dashboard" /></a>
+                    </Link>
+                  </ListItem>
                   <ListItem button>
                     <Link href="/blocks">
                       <a><ListItemText primary="Blocks" /></a>
