@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     canvas: {
       display: 'flex',
-      minHeight: 'calc(100vh - 64px)',
       flexDirection: 'column'
     },
     main: {
@@ -145,7 +144,7 @@ const Layout = (props: { children: React.ReactNode; }) => {
           </Hidden>
         </Toolbar>
       </AppBar>
-      <div className={classes.canvas} >
+      <div className={classes.canvas} style={smMatches?{minHeight:'calc(100vh - 56px)'}:{minHeight:'calc(100vh - 64px)'}}>
         <Container maxWidth={false} component="main" className={classes.main}>
           <>{props.children}</>
         </Container>
