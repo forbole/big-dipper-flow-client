@@ -5,14 +5,20 @@ import List from '@material-ui/core/List'
 import ListItem, { ListItemProps } from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import MenuIcon from '@material-ui/icons/Menu'
+import Footer from './Footer'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      flexGrow: 1,
+    canvas: {
+      display: 'flex',
+      minHeight: 'calc(100vh - 64px)',
+      flexDirection: 'column'
+    },
+    main: {
+      flexGrow: 1
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -139,11 +145,12 @@ const Layout = (props: { children: React.ReactNode; }) => {
           </Hidden>
         </Toolbar>
       </AppBar>
-      <Container maxWidth={false}>
-        <main>
-          {props.children}
-        </main>
-      </Container>
+      <div className={classes.canvas} >
+        <Container maxWidth={false} component="main" className={classes.main}>
+          <>{props.children}</>
+        </Container>
+        <Footer />
+      </div>
     </React.Fragment>
   )
 }
