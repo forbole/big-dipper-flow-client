@@ -1,0 +1,24 @@
+{
+  "name": "big-dipper-flow-client",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "author": "Forbole",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "next": "^9.5.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.27",
+    "@types/react": "^16.9.44",
+    "typescript": "^3.9.7"
+  }
+}
