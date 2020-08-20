@@ -5,6 +5,12 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Layout from '../components/Layout'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Theme from '../themes/Theme';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: process.env.GRAPHQL_HOST,
+  cache: new InMemoryCache()
+});
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -26,9 +32,11 @@ export default function MyApp(props) {
       <ThemeProvider theme={Theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <ApolloProvider client={client}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ApolloProvider>
       </ThemeProvider>
     </React.Fragment>
   );
