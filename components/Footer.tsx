@@ -6,6 +6,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     footer: {
+        marginTop: theme.spacing(2),
       height: '5rem',
       backgroundColor: theme.palette.common.black
     },
