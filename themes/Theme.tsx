@@ -7,6 +7,7 @@ declare module "@material-ui/core/styles/createPalette" {
   }
   interface PaletteOptions {
     accent: PaletteOptions['primary'];
+    bigDipper: PaletteOptions['primary'];
   }
 }
 // Create a theme instance.
@@ -36,6 +37,10 @@ const Theme = createMuiTheme({
     background: {
       default: '#fff',
     },
+    bigDipper: {
+      light: '#f54f4a',
+      main: '#db001a'
+    }
   },
   typography: {
     fontFamily: [

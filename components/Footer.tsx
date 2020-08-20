@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '100%'
     },
     forboleLink: {
-        color: theme.palette.accent.main,
+        color: theme.palette.bigDipper.main,
         textDecoration: 'none',
         '&:hover': {
             textDecoration: 'underline'
