@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column'
     },
     main: {
-      flexGrow: 1
+      flexGrow: 1,
+      marginTop: theme.spacing(2)
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -98,7 +99,7 @@ const Layout = (props: { children: React.ReactNode; }) => {
 
   return (
     <React.Fragment>
-      <AppBar position="static" className={classes.appBar}>
+      <AppBar position="static" className={classes.appBar} elevation={0}>
         <Toolbar>
           <Box pr={2} className={(smMatches) ? `${classes.title} ${classes.titleSM}` : classes.title}>
             <Typography variant="h5" component="h1">

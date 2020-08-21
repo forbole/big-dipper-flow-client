@@ -7,9 +7,9 @@ import { Dashboard } from '../components/Dashboard/Dashboard'
 export default function Index() {
     return (    
         <React.Fragment>
-            <Box my={2}>
+            {/* <Box my={2}>
                 <Title title="Dashboard" />
-            </Box>
+            </Box> */}
             <Dashboard />
         </React.Fragment>
     )
