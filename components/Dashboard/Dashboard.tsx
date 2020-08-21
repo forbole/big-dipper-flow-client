@@ -1,7 +1,9 @@
 import React from 'react'
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles'
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Grid, Paper, Typography } from '@material-ui/core'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { CHAIN_STATUS } from '../../queries/chainStatus'
+import { useQuery, gql } from '@apollo/client'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -45,7 +47,15 @@ export const Dashboard = () => {
     const theme = useTheme()
     const mdMatches = useMediaQuery(theme.breakpoints.up('md'))
 
+    const { loading, error, data } = useQuery(CHAIN_STATUS, {
+        pollInterval: 500
+    })
 
+    if (loading) return <div>Loading...</div>
+    if (error) return <div>Error :(</div>
+
+    console.log(data)
+    
     return (
         <Grid container spacing={3} >
             <Grid item xs={12} sm={6} md={3}>
@@ -82,6 +92,4 @@ export const Dashboard = () => {
             </Grid>
         </Grid>
     )
-
 }
-

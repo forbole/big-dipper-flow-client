@@ -1,5 +1,21 @@
 import { gql } from '@apollo/client';
 
-const EXCHANGE_RATES = gql`
-  ***
+export const CHAIN_STATUS = gql`
+  query ChainStatus {
+    chain_state {
+      averageBlockTime
+      latestHeight
+      latestTimestamp
+    }
+    transaction_aggregate {
+      aggregate {
+        count
+      }
+    }
+    collection_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
 `;
