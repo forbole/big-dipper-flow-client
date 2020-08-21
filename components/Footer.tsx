@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     logo: {
         display: 'block',
-        height: '65%'
+        height: '3.4rem'
     },
     brand: {
         color: theme.palette.common.white,
@@ -33,16 +33,22 @@ const Footer = () => {
     const theme = useTheme()
     const smMatches = useMediaQuery(theme.breakpoints.down('xs'))
 
-    return <Toolbar className={classes.footer}>
-        <Box className={classes.brand}>
-            <img src="/img/big-dipper-logo-light.svg" title="Big Dipper for Flow" className={classes.logo}/>
-            <Box pl={1.25}>
-                <Typography variant="caption" component="div">
-                Big Dipper for Flow - presented by <a href="https://forbole.com" target="_blank" className={classes.forboleLink}>Forbole</a>
-                </Typography>
-            </Box> 
-        </Box>
-    </Toolbar>
+    return (
+        <footer className={classes.footer}>
+            <Container maxWidth="lg">
+                <Toolbar>
+                    <Box className={classes.brand}>
+                        <img src="/img/big-dipper-logo-light.svg" title="Big Dipper for Flow" className={classes.logo}/>
+                        <Box pl={1.25}>
+                            <Typography variant="caption" component="div">
+                            Big Dipper for Flow - presented by <a href="https://forbole.com" target="_blank" className={classes.forboleLink}>Forbole</a>
+                            </Typography>
+                        </Box> 
+                    </Box>
+                </Toolbar>
+            </Container>
+        </footer>
+    )
 }
 
 export default Footer

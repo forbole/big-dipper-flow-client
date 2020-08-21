@@ -100,6 +100,7 @@ const Layout = (props: { children: React.ReactNode; }) => {
   return (
     <React.Fragment>
       <AppBar position="static" className={classes.appBar} elevation={0}>
+        <Container maxWidth="lg">
         <Toolbar>
           <Box pr={2} className={(smMatches) ? `${classes.title} ${classes.titleSM}` : classes.title}>
             <Typography variant="h5" component="h1">
@@ -144,9 +145,11 @@ const Layout = (props: { children: React.ReactNode; }) => {
             </Drawer>
           </Hidden>
         </Toolbar>
+        </Container>
       </AppBar>
+      
       <div className={classes.canvas} style={smMatches?{minHeight:'calc(100vh - 56px)'}:{minHeight:'calc(100vh - 64px)'}}>
-        <Container maxWidth={false} component="main" className={classes.main}>
+        <Container maxWidth="lg" component="main" className={classes.main}>
           <>{props.children}</>
         </Container>
         <Footer />

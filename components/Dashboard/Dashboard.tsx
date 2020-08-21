@@ -1,6 +1,8 @@
 import React from 'react'
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles'
 import { Grid, Paper, Typography } from '@material-ui/core'
+import { BlocksList } from '../Blocks/BlocksList'
+import { ActivitiesList } from '../Activities/ActivitiesList'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { CHAIN_STATUS } from '../../queries/chainStatus'
 import { useQuery } from '@apollo/client'
@@ -40,7 +42,15 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundSize: '9.63375rem 11.5rem',
             backgroundPosition: 'right -1.8375rem top 0.4375rem'
         },
+        blocks: {
+            paddingLeft: '2.5rem',
+            background: 'url(/img/icon-blocks@2x.png) left center no-repeat'
+        },
+        activities: {
+            paddingLeft: '2.5rem',
+            background: 'url(/img/icon-activities@2x.png) left center no-repeat'
 
+        }
     }),
 );
 
@@ -89,6 +99,18 @@ export const Dashboard = () => {
                     -
                 </Typography>
             </Paper>
+            </Grid>
+            <Grid item sm={12} md={6}>
+                <Paper className={classes.card}>
+                    <Typography variant="h5" className={classes.blocks}>Latest Blocks</Typography>
+                    <BlocksList />
+                </Paper>
+            </Grid>
+            <Grid item sm={12} md={6}>
+                <Paper className={classes.card}>
+                    <Typography variant="h5" className={classes.activities}>Recent Activities</Typography>
+                    <ActivitiesList />
+                </Paper>
             </Grid>
         </Grid>
     )
