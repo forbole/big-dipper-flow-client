@@ -3,13 +3,15 @@ import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/sty
 import { Grid, Paper, Typography } from '@material-ui/core'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { CHAIN_STATUS } from '../../queries/chainStatus'
-import { useQuery, gql } from '@apollo/client'
+import { useQuery } from '@apollo/client'
+import numbro from 'numbro'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         card:{
             padding: theme.spacing(2),
             backgroundRepeat: 'no-repeat',
+            transition: 'all 0.2s ease',
         },
         cardMd: {
             paddingTop: theme.spacing(15),
@@ -48,21 +50,19 @@ export const Dashboard = () => {
     const mdMatches = useMediaQuery(theme.breakpoints.up('md'))
 
     const { loading, error, data } = useQuery(CHAIN_STATUS, {
-        pollInterval: 500
+        pollInterval: 1000
     })
 
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error :(</div>
 
-    console.log(data)
-    
     return (
         <Grid container spacing={3} >
             <Grid item xs={12} sm={6} md={3}>
             <Paper className={`${classes.card} ${mdMatches?classes.cardMd:''} ${classes.cardA}`}>
                 Latest Block Height
                 <Typography variant="h3">
-                    4,123,456
+                    {numbro(data.chain_state[0].latestHeight).format({thousandSeparated: true})}
                 </Typography>
             </Paper>
             </Grid>
@@ -70,7 +70,7 @@ export const Dashboard = () => {
             <Paper className={`${classes.card} ${mdMatches?classes.cardMd:''} ${classes.cardB}`}>
                 Average Block Time
                 <Typography variant="h3">
-                    1.5567 s
+                    {data.chain_state[0].averageBlockTime.toFixed(4)} s
                 </Typography>
             </Paper>
             </Grid>
@@ -78,7 +78,7 @@ export const Dashboard = () => {
             <Paper className={`${classes.card} ${mdMatches?classes.cardMd:''} ${classes.cardC}`}>
                 # of Transactions
                 <Typography variant="h3">
-                    345,880
+                    {numbro(data.transaction_aggregate.aggregate.count).format({thousandSeparated: true})}
                 </Typography>
             </Paper>
             </Grid>
@@ -86,7 +86,7 @@ export const Dashboard = () => {
             <Paper className={`${classes.card} ${mdMatches?classes.cardMd:''} ${classes.cardD}`}>
                 # of Accounts
                 <Typography variant="h3">
-                    000,000
+                    -
                 </Typography>
             </Paper>
             </Grid>

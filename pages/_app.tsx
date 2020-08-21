@@ -8,7 +8,7 @@ import Theme from '../themes/Theme';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: process.env.GRAPHQL_HOST,
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_HOST,
   cache: new InMemoryCache()
 });
 
