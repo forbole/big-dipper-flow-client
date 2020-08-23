@@ -12,10 +12,5 @@ export const CHAIN_STATUS = gql`
         count
       }
     }
-    collection_aggregate {
-      aggregate {
-        count
-      }
-    }
   }
 `;
