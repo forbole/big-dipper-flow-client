@@ -101,7 +101,7 @@ const Layout = (props: { children: React.ReactNode; }) => {
     <React.Fragment>
       <AppBar position="static" className={classes.appBar} elevation={0}>
         <Container maxWidth="lg">
-        <Toolbar>
+        <Toolbar disableGutters={true}>
           <Box pr={2} className={(smMatches) ? `${classes.title} ${classes.titleSM}` : classes.title}>
             <Typography variant="h5" component="h1">
                 <img src="/img/flow-logo.svg" />

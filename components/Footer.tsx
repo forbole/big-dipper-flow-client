@@ -36,7 +36,7 @@ const Footer = () => {
     return (
         <footer className={classes.footer}>
             <Container maxWidth="lg">
-                <Toolbar>
+                <Toolbar disableGutters={true}>
                     <Box className={classes.brand}>
                         <img src="/img/big-dipper-logo-light.svg" title="Big Dipper for Flow" className={classes.logo}/>
                         <Box pl={1.25}>
