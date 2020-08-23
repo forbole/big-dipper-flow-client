@@ -7,6 +7,7 @@ declare module "@material-ui/core/styles/createPalette" {
   }
   interface PaletteOptions {
     accent: PaletteOptions['primary'];
+    line: PaletteOptions['primary'];
     bigDipper: PaletteOptions['primary'];
   }
 }
@@ -37,6 +38,9 @@ const Theme = createMuiTheme({
     },
     background: {
       default: '#fff',
+    },
+    line: {
+      main: 'e8e8e8',
     },
     bigDipper: {
       light: '#f54f4a',
@@ -81,7 +85,19 @@ const Theme = createMuiTheme({
     body2: {
       color: '#777',
     }
-  }
+  },
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        html: {
+          WebkitFontSmoothing: 'auto'
+        },
+        'th,td': {
+          borderBottomColor: '#e8e8e8 !important'
+        }
+      },
+    },
+  },
 });
 
 export default Theme;

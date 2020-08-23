@@ -1,46 +1,60 @@
 import React from 'react'
 import { Paper, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core';
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles'
 import Title from '../Title'
+import { useQuery } from '@apollo/client';
+import { BLOCKS_LIST } from '../../queries/blocksList'
+import { TableLoader } from '../Loaders'
+import moment from 'moment'
+import numbro from 'numbro'
 
-export const BlocksList = () => {
+moment.relativeTimeThreshold('s', 60);
+moment.relativeTimeThreshold('ss', 1);
 
-    function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-        return { name, calories, fat, carbs, protein };
-      }
-      
-      const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-      ];
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        table:{
+            tableLayout: 'fixed'
+        },
+        tableCell:{
+            textOverflow: "ellipsis",
+            overflow: 'hidden',
+            whiteSpace: 'nowrap'
+        }
+    }),
+)
 
+type ListProps = { size?: 'small' }
+
+export const BlocksList = ({size}:ListProps) => {
+    const classes = useStyles()
+    const { loading, error, data } = useQuery(BLOCKS_LIST, {
+        pollInterval: 1000
+    })
+
+    if (loading) return <TableLoader />
+    if (error) return <div>Error :(</div>
 
     return (
         <TableContainer >
-            <Table aria-label="simple table">
+            <Table aria-label="simple table" className={classes.table}  size={size} >
             <TableHead>
                 <TableRow>
                 <TableCell style={{fontWeight:700}}>Height</TableCell>
-                <TableCell style={{fontWeight:700}}>Block Proposer</TableCell>
                 <TableCell style={{fontWeight:700}}>ID</TableCell>
-                <TableCell style={{fontWeight:700}}>Parent ID</TableCell>
                 <TableCell align="right" style={{fontWeight:700}}>Transactions</TableCell>
-                <TableCell align="right" style={{fontWeight:700}}>Timestamp (UTC)</TableCell>
+                <TableCell align="right" style={{fontWeight:700}}>Time</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
-                {rows.map((row) => (
-                <TableRow key={row.name}>
+                {data.block.map((block) => (
+                <TableRow key={block.height}>
                     <TableCell component="th" scope="row">
-                    {row.name}
+                    {numbro(block.height).format({thousandSeparated: true})}
                     </TableCell>
-                    <TableCell>{row.calories}</TableCell>
-                    <TableCell>{row.fat}</TableCell>
-                    <TableCell>{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
+                    <TableCell className={classes.tableCell}>{block.id}</TableCell>
+                    <TableCell align="right">{block.transactions_aggregate.aggregate.count}</TableCell>
+                    <TableCell align="right">{moment.unix(parseFloat(`${block.timestamp.seconds}.${block.timestamp.nanos}`)).utc().fromNow()}</TableCell>
                 </TableRow>
                 ))}
             </TableBody>

@@ -103,7 +103,9 @@ export const Dashboard = () => {
             <Grid item sm={12} md={6}>
                 <Paper className={classes.card}>
                     <Typography variant="h5" className={classes.blocks}>Latest Blocks</Typography>
-                    <BlocksList />
+                    <BlocksList 
+                        size='small'
+                    />
                 </Paper>
             </Grid>
             <Grid item sm={12} md={6}>
