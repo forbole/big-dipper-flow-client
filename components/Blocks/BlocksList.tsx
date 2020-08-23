@@ -1,15 +1,22 @@
 import React from 'react'
 import { Paper, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core';
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Title from '../Title'
+import Link from 'next/link'
 import { useQuery } from '@apollo/client';
 import { BLOCKS_LIST } from '../../queries/blocksList'
 import { TableLoader } from '../Loaders'
 import moment from 'moment'
 import numbro from 'numbro'
 
-moment.relativeTimeThreshold('s', 60);
-moment.relativeTimeThreshold('ss', 1);
+moment.relativeTimeThreshold('s', 60)
+moment.relativeTimeThreshold('ss', 1)
+moment.updateLocale('en', {
+    relativeTime : {
+        ss : '%d s'
+    }
+})
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,6 +35,9 @@ type ListProps = { size?: 'small' }
 
 export const BlocksList = ({size}:ListProps) => {
     const classes = useStyles()
+    const theme = useTheme()
+    const smMatches = useMediaQuery(theme.breakpoints.down('xs'))
+
     const { loading, error, data } = useQuery(BLOCKS_LIST, {
         pollInterval: 1000
     })
@@ -42,7 +52,7 @@ export const BlocksList = ({size}:ListProps) => {
                 <TableRow>
                 <TableCell style={{fontWeight:700}}>Height</TableCell>
                 <TableCell style={{fontWeight:700}}>ID</TableCell>
-                <TableCell align="right" style={{fontWeight:700}}>Transactions</TableCell>
+                <TableCell align="right" style={{fontWeight:700}}>{smMatches?'Txns':'Transactions'}</TableCell>
                 <TableCell align="right" style={{fontWeight:700}}>Time</TableCell>
                 </TableRow>
             </TableHead>
