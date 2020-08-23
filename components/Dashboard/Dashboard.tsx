@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: theme.spacing(2),
             backgroundRepeat: 'no-repeat',
             transition: 'all 0.2s ease',
+            height: '100%'
         },
         cardMd: {
             paddingTop: theme.spacing(15),
