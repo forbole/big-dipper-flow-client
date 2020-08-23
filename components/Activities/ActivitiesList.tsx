@@ -60,7 +60,7 @@ export const ActivitiesList = ({size, home = false}:ListProps) => {
             <TableContainer >
                 <Table aria-label="simple table" className={classes.table} size={size}>
                 <TableBody>
-                    {data.transaction.map((tx) => (
+                    {data.transaction.map((tx:any) => (
                     <TableRow key={tx.id}>
                         <TableCell scope="row" className={classes.tableCell}>
                             <Link href="#">

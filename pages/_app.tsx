@@ -12,13 +12,13 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-export default function MyApp(props) {
+export default function BigDipper(props:any) {
   const { Component, pageProps } = props;
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
+    if (jssStyles && jssStyles.parentElement) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
@@ -42,7 +42,7 @@ export default function MyApp(props) {
   );
 }
 
-MyApp.propTypes = {
+BigDipper.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object.isRequired,
 };

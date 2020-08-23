@@ -4,6 +4,8 @@ import red from '@material-ui/core/colors/red';
 declare module "@material-ui/core/styles/createPalette" {
   interface Palette {
     accent: Palette['primary'];
+    line: Palette['primary'];
+    bigDipper: Palette['primary'];
   }
   interface PaletteOptions {
     accent: PaletteOptions['primary'];

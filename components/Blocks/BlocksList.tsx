@@ -64,7 +64,7 @@ export const BlocksList = ({size, home = false}:ListProps) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.block.map((block) => (
+                    {data.block.map((block:any) => (
                     <TableRow key={block.height}>
                         <TableCell component="th" scope="row">
                             <Link href="#">
