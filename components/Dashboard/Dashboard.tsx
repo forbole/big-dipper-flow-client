@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme: Theme) =>
         activities: {
             paddingLeft: '2.5rem',
             background: 'url(/img/icon-activities@2x.png) left center no-repeat'
-
         }
     }),
 );
