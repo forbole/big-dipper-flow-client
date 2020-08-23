@@ -92,6 +92,12 @@ const Theme = createMuiTheme({
         html: {
           WebkitFontSmoothing: 'auto'
         },
+        a: {
+          textDecoration: 'none',
+          '&:hover':{
+            textDecoration: 'underline'
+          }
+        },
         'th,td': {
           borderBottomColor: '#e8e8e8 !important'
         },

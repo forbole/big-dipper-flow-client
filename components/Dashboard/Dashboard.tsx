@@ -105,6 +105,7 @@ export const Dashboard = () => {
                     <Typography variant="h5" className={classes.blocks}>Latest Blocks</Typography>
                     <BlocksList 
                         size='small'
+                        home
                     />
                 </Paper>
             </Grid>
