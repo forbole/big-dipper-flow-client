@@ -14,6 +14,7 @@ export default class MyDocument extends Document {
                     rel="stylesheet"
                     href="https://fonts.googleapis.com/css?family=Arimo:ital,wght@0,400;0,700;1,400;1,700&family=Hind+Madurai&family=Roboto:300,400,500,700&display=swap"
                 />
+                <link rel="icon" href="/img/big-dipper-icon-dark.svg"></link>
                 </Head>
                 <body>
                 <Main />
