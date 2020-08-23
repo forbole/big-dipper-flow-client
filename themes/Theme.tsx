@@ -94,6 +94,9 @@ const Theme = createMuiTheme({
         },
         'th,td': {
           borderBottomColor: '#e8e8e8 !important'
+        },
+        '.MuiTableCell-sizeSmall':{
+          padding: '0.75rem 1.5rem 0.74rem 0 !important'
         }
       },
     },
