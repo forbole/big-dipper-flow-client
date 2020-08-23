@@ -113,7 +113,10 @@ export const Dashboard = () => {
             <Grid item sm={12} md={6}>
                 <Paper className={classes.card}>
                     <Typography variant="h5" className={classes.activities}>Recent Activities</Typography>
-                    <ActivitiesList />
+                    <ActivitiesList 
+                        size='small'
+                        home
+                    />
                 </Paper>
             </Grid>
         </Grid>

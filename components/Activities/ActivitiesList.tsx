@@ -1,50 +1,89 @@
 import React from 'react'
-import { Paper, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core';
+import { Paper, Box, Typography, Table, TableBody, TableCell, TableContainer, TableRow, Chip} from '@material-ui/core';
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Title from '../Title'
+import Link from 'next/link'
+import { useQuery } from '@apollo/client';
+import { TRANSACTIONS_LIST } from '../../queries/transactionsList'
+import { TableLoader } from '../Loaders'
+import moment from 'moment'
+import numbro from 'numbro'
 
-export const ActivitiesList = () => {
+moment.relativeTimeThreshold('s', 60)
+moment.relativeTimeThreshold('ss', 1)
+moment.updateLocale('en', {
+    relativeTime : {
+        ss : '%d s'
+    }
+})
 
-    function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-        return { name, calories, fat, carbs, protein };
-      }
-      
-      const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-      ];
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        table:{
+            tableLayout: 'fixed'
+        },
+        tableCell:{
+            textOverflow: "ellipsis",
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            width: '50%'
+        },
+        status: {
+            color: theme.palette.common.white
+        },
+        moreLink:{
+            padding: theme.spacing(2),
+            display: 'block',
+            textAlign: 'center',
+            lineHeight: '1.5'
+        }
+    }),
+)
 
+type ListProps = { size?: 'small', home?: boolean }
+
+export const ActivitiesList = ({size, home = false}:ListProps) => {
+    const classes = useStyles()
+    const theme = useTheme()
+    const smMatches = useMediaQuery(theme.breakpoints.down('xs'))
+
+    const { loading, error, data } = useQuery(TRANSACTIONS_LIST, {
+        pollInterval: 1000
+    })
+
+    if (loading) return <TableLoader />
+    if (error) return <div>Error :(</div>
 
     return (
-        <TableContainer >
-            <Table aria-label="simple table">
-            <TableHead>
-                <TableRow>
-                <TableCell style={{fontWeight:700}}>Height</TableCell>
-                <TableCell style={{fontWeight:700}}>Block Proposer</TableCell>
-                <TableCell style={{fontWeight:700}}>ID</TableCell>
-                <TableCell style={{fontWeight:700}}>Parent ID</TableCell>
-                <TableCell align="right" style={{fontWeight:700}}>Transactions</TableCell>
-                <TableCell align="right" style={{fontWeight:700}}>Timestamp (UTC)</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {rows.map((row) => (
-                <TableRow key={row.name}>
-                    <TableCell component="th" scope="row">
-                    {row.name}
-                    </TableCell>
-                    <TableCell>{row.calories}</TableCell>
-                    <TableCell>{row.fat}</TableCell>
-                    <TableCell>{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
-                </TableRow>
-                ))}
-            </TableBody>
-            </Table>
-        </TableContainer>
+        <React.Fragment>
+            <TableContainer >
+                <Table aria-label="simple table" className={classes.table} size={size}>
+                <TableBody>
+                    {data.transaction.map((tx) => (
+                    <TableRow key={tx.id}>
+                        <TableCell scope="row" className={classes.tableCell}>
+                            <Link href="#">
+                                <a>{tx.proposalKey.address}</a>
+                            </Link> sent <Link href="#"><a>{tx.id}</a></Link>
+                        </TableCell>
+                        <TableCell align="right">
+                            <Chip 
+                                color="secondary" 
+                                label={tx.transactionResult.status}
+                                size="small"
+                                className={classes.status}
+                            />
+                        </TableCell>
+                        <TableCell align="right">{moment.unix(parseFloat(`${tx.block.timestamp.seconds}.${tx.block.timestamp.nanos}`)).utc().fromNow()}</TableCell>
+                    </TableRow>
+                    ))}
+                </TableBody>
+                </Table>
+            </TableContainer>
+            {home?<Link href="/activities">
+                <a className={classes.moreLink}>see more</a>
+            </Link>:''}
+        </React.Fragment>
     )
 }
