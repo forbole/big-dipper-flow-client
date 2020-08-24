@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import { Paper, Box} from '@material-ui/core';
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles'
+import { Paper, Box} from '@material-ui/core'
 import Title from '../../components/Title'
 import { BlockDetails } from '../../components/Blocks/BlockDetails'
 import numbro from 'numbro'
@@ -22,13 +22,9 @@ export default function Block() {
   return (
     <React.Fragment>
       <Box my={2} className={classes.blocks}>
-        <Title title={"Block #"+numbro(id).format({thousandSeparated:true})}/>
+        <Title title={"Block "+id}/>
       </Box>
-      <Paper>
-            <Box p={2}>
-                <BlockDetails height={parseInt(id)} />
-            </Box>
-      </Paper>
+      <BlockDetails param={id as string} />
     </React.Fragment>
   );
 }
