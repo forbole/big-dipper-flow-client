@@ -1,5 +1,5 @@
 
-export const getTxCount = (collections:Array<{transactionIds:Array<string>}>):number => {
+const getTxCount = (collections:Array<{transactionIds:Array<string>}>):number => {
     let txCount:number = 0
     
     collections.forEach(col => {
@@ -7,4 +7,8 @@ export const getTxCount = (collections:Array<{transactionIds:Array<string>}>):nu
     })
 
     return txCount
+}
+
+export default {
+    getTxCount
 }

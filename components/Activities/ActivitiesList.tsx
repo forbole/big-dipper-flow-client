@@ -9,6 +9,7 @@ import { TRANSACTIONS_LIST } from '../../queries/transactions'
 import { TableLoader } from '../Loaders'
 import moment from 'moment'
 import numbro from 'numbro'
+import utils from '../../utils'
 
 moment.relativeTimeThreshold('s', 60)
 moment.relativeTimeThreshold('ss', 1)
@@ -59,8 +60,8 @@ export const ActivitiesList = ({size, home = false}:ListProps) => {
                     <TableRow key={tx.id}>
                         <TableCell scope="row" className={classes.tableCell}>
                             <Link href="#">
-                                <a className="monospace">{Buffer.from(tx.proposalKey.address,'base64').toString('hex')}</a>
-                            </Link> sent <Link href="#"><a className="monospace">{Buffer.from(tx.id, 'base64').toString('hex')}</a></Link>
+                                <a className="monospace">{utils.base64ToHex(tx.proposalKey.address)}</a>
+                            </Link> sent <Link href="#"><a className="monospace">{utils.base64ToHex(tx.id)}</a></Link>
                         </TableCell>
                         <TableCell align="right">
                             <Chip 
