@@ -105,6 +105,9 @@ const Theme = createMuiTheme({
         },
         '.MuiTableCell-sizeSmall':{
           padding: '0.75rem 1.5rem 0.74rem 0 !important'
+        },
+        '.monospace': {
+          fontFamily: "'PT Mono', monospace !important"
         }
       },
     },
