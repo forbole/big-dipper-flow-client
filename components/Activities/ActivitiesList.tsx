@@ -59,8 +59,8 @@ export const ActivitiesList = ({size, home = false}:ListProps) => {
                     <TableRow key={tx.id}>
                         <TableCell scope="row" className={classes.tableCell}>
                             <Link href="#">
-                                <a>{Buffer.from(tx.proposalKey.address,'base64').toString('hex')}</a>
-                            </Link> sent <Link href="#"><a>{Buffer.from(tx.id, 'base64').toString('hex')}</a></Link>
+                                <a className="monospace">{Buffer.from(tx.proposalKey.address,'base64').toString('hex')}</a>
+                            </Link> sent <Link href="#"><a className="monospace">{Buffer.from(tx.id, 'base64').toString('hex')}</a></Link>
                         </TableCell>
                         <TableCell align="right">
                             <Chip 

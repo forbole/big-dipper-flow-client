@@ -72,7 +72,7 @@ export const BlocksList = ({size, home = false}:ListProps) => {
                                 <a>{numbro(block.height).format({thousandSeparated: true})}</a>
                             </Link>
                         </TableCell>
-                        <TableCell className={classes.tableCell}>{Buffer.from(block.id, 'base64').toString('hex')}</TableCell>
+                        <TableCell className={`${classes.tableCell} monospace`}>{Buffer.from(block.id, 'base64').toString('hex')}</TableCell>
                         <TableCell align="center">{utils.getTxCount(block.collections)}</TableCell>
                         <TableCell align="right">{moment.unix(parseFloat(`${block.timestamp.seconds}.${block.timestamp.nanos}`)).utc().fromNow()}</TableCell>
                     </TableRow>
