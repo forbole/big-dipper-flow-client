@@ -5,18 +5,13 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Title from '../Title'
 import Link from 'next/link'
 import { useQuery } from '@apollo/client';
-import { TRANSACTIONS_LIST } from '../../queries/transactionsList'
+import { TRANSACTIONS_LIST } from '../../queries/transactions'
 import { TableLoader } from '../Loaders'
 import moment from 'moment'
 import numbro from 'numbro'
 
 moment.relativeTimeThreshold('s', 60)
 moment.relativeTimeThreshold('ss', 1)
-moment.updateLocale('en', {
-    relativeTime : {
-        ss : '%d s'
-    }
-})
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

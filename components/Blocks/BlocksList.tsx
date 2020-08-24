@@ -5,7 +5,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Title from '../Title'
 import Link from 'next/link'
 import { useQuery } from '@apollo/client';
-import { BLOCKS_LIST } from '../../queries/blocksList'
+import { BLOCKS_LIST } from '../../queries/blocks'
 import { TableLoader } from '../Loaders'
 import utils from '../../utils'
 import moment from 'moment'

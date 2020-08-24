@@ -4,7 +4,7 @@ import { Grid, Paper, Typography } from '@material-ui/core'
 import { BlocksList } from '../Blocks/BlocksList'
 import { ActivitiesList } from '../Activities/ActivitiesList'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { CHAIN_STATUS } from '../../queries/chainStatus'
+import { CHAIN_STATUS } from '../../queries/chain'
 import { useQuery } from '@apollo/client'
 import numbro from 'numbro'
 
