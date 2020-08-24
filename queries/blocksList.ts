@@ -7,10 +7,8 @@ export const BLOCKS_LIST = gql`
             height
             id
             timestamp
-            transactions_aggregate {
-                aggregate {
-                    count(columns: id)
-                }
+            collections {
+                transactionIds
             }
         }
     }

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useQuery } from '@apollo/client';
 import { BLOCKS_LIST } from '../../queries/blocksList'
 import { TableLoader } from '../Loaders'
+import utils from '../../utils'
 import moment from 'moment'
 import numbro from 'numbro'
 
@@ -72,7 +73,7 @@ export const BlocksList = ({size, home = false}:ListProps) => {
                             </Link>
                         </TableCell>
                         <TableCell className={classes.tableCell}>{Buffer.from(block.id, 'base64').toString('hex')}</TableCell>
-                        <TableCell align="center">{block.transactions_aggregate.aggregate.count}</TableCell>
+                        <TableCell align="center">{utils.getTxCount(block.collections)}</TableCell>
                         <TableCell align="right">{moment.unix(parseFloat(`${block.timestamp.seconds}.${block.timestamp.nanos}`)).utc().fromNow()}</TableCell>
                     </TableRow>
                     ))}
