@@ -4,6 +4,7 @@ import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/sty
 import { Paper, Box} from '@material-ui/core';
 import Title from '../../components/Title'
 import { BlockDetails } from '../../components/Blocks/BlockDetails'
+import numbro from 'numbro'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -21,7 +22,7 @@ export default function Block() {
   return (
     <React.Fragment>
       <Box my={2} className={classes.blocks}>
-        <Title title="Block Details"/>
+        <Title title={"Block #"+numbro(id).format({thousandSeparated:true})}/>
       </Box>
       <Paper>
             <Box p={2}>
