@@ -67,7 +67,7 @@ export const BlocksList = ({size, home = false}:ListProps) => {
                     {data.block.map((block:any) => (
                     <TableRow key={block.height}>
                         <TableCell component="th" scope="row">
-                            <Link href="#">
+                            <Link href={"/block/"+block.height}>
                                 <a>{numbro(block.height).format({thousandSeparated: true})}</a>
                             </Link>
                         </TableCell>
