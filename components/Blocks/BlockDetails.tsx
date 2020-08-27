@@ -4,6 +4,12 @@ import { Paper, Box, Typography, Table, TableBody, TableCell, TableContainer, Ta
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import FolderSpecialIcon from '@material-ui/icons/FolderSpecial'
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser'
 import { loadCSS } from 'fg-loadcss'
@@ -13,6 +19,8 @@ import { useQuery } from '@apollo/client'
 import numbro from 'numbro'
 import moment from 'moment'
 import utils from '../../utils'
+import ReactJson from 'react-json-view'
+import Link from 'next/link'
 
 moment.relativeTimeThreshold('s', 60)
 moment.relativeTimeThreshold('ss', 1)
@@ -61,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     well: {
         padding: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.light,
+        backgroundColor: theme.palette.grey[100],
         wordBreak: 'break-all'
     }
   }),
@@ -157,15 +165,36 @@ export const BlockDetails = ({param}:BlockProps) => {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-
+                <Paper variant="outlined" square className={`${classes.well} monospace`}>
+                    <Typography variant="caption">
+                        {block.collections.map(col => {
+                            return <React.Fragment>
+                                <List dense key={col.id}>{col.transactionIds.map(tx => {
+                                    return <ListItem>
+                                    <ListItemIcon>
+                                        <FolderOpenIcon />
+                                    </ListItemIcon>
+                                    <Link href={`/tx/${utils.base64ToHex(tx)}`}>
+                                        <a><ListItemText
+                                            primary={utils.base64ToHex(tx)}
+                                        /></a></Link>
+                                </ListItem>
+                            })}</List></React.Fragment>
+                        })}
+                    </Typography>
+                </Paper>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                
+                <Paper variant="outlined" square className={`${classes.well} monospace`}>
+                    <Typography variant="caption">
+                        <ReactJson src={block.blockSeals} />
+                    </Typography>
+                </Paper>
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <Paper variant="outlined" square className={`${classes.well} monospace`}>
                     <Typography variant="caption">
-                    {block.signatures}
+                        {block.signatures}
                     </Typography>
                 </Paper>
             </TabPanel>
