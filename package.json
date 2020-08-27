@@ -20,7 +20,8 @@
     "numbro": "^2.3.1",
     "react": "^16.13.1",
     "react-content-loader": "^5.1.0",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-json-view": "^1.19.1"
   },
   "devDependencies": {
     "@types/node": "^14.0.27",
