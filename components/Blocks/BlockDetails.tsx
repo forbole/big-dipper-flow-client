@@ -19,8 +19,9 @@ import { useQuery } from '@apollo/client'
 import numbro from 'numbro'
 import moment from 'moment'
 import utils from '../../utils'
-import ReactJson from 'react-json-view'
 import Link from 'next/link'
+// import dynamic from "next/dynamic";
+// import ReactJson from 'react-json-view'
 
 moment.relativeTimeThreshold('s', 60)
 moment.relativeTimeThreshold('ss', 1)
@@ -187,7 +188,7 @@ export const BlockDetails = ({param}:BlockProps) => {
             <TabPanel value={value} index={1}>
                 <Paper variant="outlined" square className={`${classes.well} monospace`}>
                     <Typography variant="caption">
-                        <ReactJson src={block.blockSeals} />
+                        {/* <ReactJson src={block.blockSeals} /> */}
                     </Typography>
                 </Paper>
             </TabPanel>
