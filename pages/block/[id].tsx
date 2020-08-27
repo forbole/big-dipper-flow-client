@@ -22,7 +22,7 @@ export default function Block() {
   return (
     <React.Fragment>
       <Box my={2} className={classes.blocks}>
-        <Title title={"Block "+id}/>
+        <Title title={"Block "+(parseInt(id)?`#${numbro(id).format({thousandSeparated: true})}`:id)}/>
       </Box>
       <BlockDetails param={id as string} />
     </React.Fragment>
