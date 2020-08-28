@@ -20,6 +20,7 @@ import numbro from 'numbro'
 import moment from 'moment'
 import utils from '../../utils'
 import Link from 'next/link'
+import Alert from '@material-ui/lab/Alert'
 // import dynamic from "next/dynamic";
 // import ReactJson from 'react-json-view'
 
@@ -120,29 +121,31 @@ export const BlockDetails = ({param}:BlockProps) => {
 
     const block = data.block[0]
     const timestamp = moment.unix(parseFloat(`${block.timestamp.seconds}.${block.timestamp.nanos}`))
+
+    console.log(block.blockSeals)
     return <React.Fragment>
         <Box mb={2}>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                 <TableBody>
                     <TableRow>
-                        <TableCell component="th">Height</TableCell>
+                        <TableCell component="th"><strong>Height</strong></TableCell>
                         <TableCell>{numbro(block.height).format({thousandSeparated:true})}</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell component="th">Timestamp (UTC)</TableCell>
+                        <TableCell component="th"><strong>Timestamp (UTC)</strong></TableCell>
                         <TableCell>{timestamp.utc().format("dddd, MMMM Do YYYY, h:mm:ss a")} ({timestamp.utc().fromNow()})</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell component="th">ID</TableCell>
+                        <TableCell component="th"><strong>ID</strong></TableCell>
                         <TableCell className="monospace">{utils.base64ToHex(block.id)}</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell component="th">Parent ID</TableCell>
+                        <TableCell component="th"><strong>Parent ID</strong></TableCell>
                         <TableCell className="monospace">{utils.base64ToHex(block.parentId)}</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell component="th">Block Time</TableCell>
+                        <TableCell component="th"><strong>Block Time</strong></TableCell>
                         <TableCell>{block.blockTime} seconds</TableCell>
                     </TableRow>
                 </TableBody>
@@ -166,6 +169,7 @@ export const BlockDetails = ({param}:BlockProps) => {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
+                {(block.collections.length > 0)?
                 <Paper variant="outlined" square className={`${classes.well} monospace`}>
                     <Typography variant="caption">
                         {block.collections.map(col => {
@@ -183,7 +187,7 @@ export const BlockDetails = ({param}:BlockProps) => {
                             })}</List></React.Fragment>
                         })}
                     </Typography>
-                </Paper>
+                </Paper>:<Alert severity="info">No collection found in this block.</Alert>}
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Paper variant="outlined" square className={`${classes.well} monospace`}>
@@ -194,7 +198,7 @@ export const BlockDetails = ({param}:BlockProps) => {
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <Paper variant="outlined" square className={`${classes.well} monospace`}>
-                    <Typography variant="caption">
+                    <Typography variant="caption" className="monospace">
                         {block.signatures}
                     </Typography>
                 </Paper>
