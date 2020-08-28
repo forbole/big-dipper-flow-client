@@ -6,7 +6,6 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
@@ -21,7 +20,10 @@ import moment from 'moment'
 import utils from '../../utils'
 import Link from 'next/link'
 import Alert from '@material-ui/lab/Alert'
-// import dynamic from "next/dynamic";
+import dynamic from "next/dynamic";
+
+const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
+
 // import ReactJson from 'react-json-view'
 
 moment.relativeTimeThreshold('s', 60)
@@ -153,7 +155,7 @@ export const BlockDetails = ({param}:BlockProps) => {
             </TableContainer>
         </Box>
         <Paper>
-            <AppBar position="static" color="inherit" elevation={1}>
+            <AppBar position="static" color="inherit" elevation={0}>
                 <Tabs
                 value={value}
                 onChange={handleChange}
@@ -190,11 +192,7 @@ export const BlockDetails = ({param}:BlockProps) => {
                 </Paper>:<Alert severity="info">No collection found in this block.</Alert>}
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <Paper variant="outlined" square className={`${classes.well} monospace`}>
-                    <Typography variant="caption">
-                        {/* <ReactJson src={block.blockSeals} /> */}
-                    </Typography>
-                </Paper>
+                {(block.blockSeals.length > 0)?<DynamicReactJson src={block.blockSeals} />:<Alert severity="info">No block seal found in this block.</Alert>}
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <Paper variant="outlined" square className={`${classes.well} monospace`}>
