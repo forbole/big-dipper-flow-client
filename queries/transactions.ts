@@ -14,3 +14,23 @@ export const TRANSACTIONS_LIST = gql`
         }
     }
 `
+
+export const TRANSACTION_BY_ID = gql`
+    query Transaction($id: String) {
+        transaction(where: {id: {_eq: $id}}, limit: 1) {
+        id
+        block {
+            height
+        }
+        arguments
+        authorizers
+        gasLimit
+        envelopeSignatures
+        payer
+        payloadSignatures
+        proposalKey
+        script
+        transactionResult
+        }
+    }
+`

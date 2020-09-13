@@ -5,7 +5,7 @@ const base64ToHex = (address:string):string => {
 }
 
 const hexToBase64 = (address:string):string => {
-    return Buffer.from(address, 'hex').toString('base64').substring(2)
+    return Buffer.from(address.substring(2), 'hex').toString('base64')
 }
 
 export default { 

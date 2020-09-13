@@ -61,7 +61,7 @@ export const ActivitiesList = ({size, home = false}:ListProps) => {
                         <TableCell scope="row" className={classes.tableCell}>
                             <Link href="#">
                                 <a className="monospace">{utils.base64ToHex(tx.proposalKey.address)}</a>
-                            </Link> sent <Link href="#"><a className="monospace">{utils.base64ToHex(tx.id)}</a></Link>
+                            </Link> sent <Link href={`/tx/${utils.base64ToHex(tx.id)}`}><a className="monospace">{utils.base64ToHex(tx.id)}</a></Link>
                         </TableCell>
                         <TableCell align="right">
                             <Chip 
