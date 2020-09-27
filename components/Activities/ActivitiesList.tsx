@@ -66,7 +66,7 @@ export const ActivitiesList = ({size, home = false}:ListProps) => {
                         <TableCell align="right">
                             <Chip 
                                 color="secondary" 
-                                label={tx.transactionResult.status}
+                                label={tx.transactionResult?tx.transactionResult.status:'UNKNOWN'}
                                 size="small"
                                 className={classes.status}
                             />
