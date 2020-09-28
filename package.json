@@ -21,7 +21,8 @@
     "numbro": "^2.3.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-json-view": "^1.19.1"
+    "react-json-view": "^1.19.1",
+    "react-syntax-highlighter": "^13.5.3"
   },
   "devDependencies": {
     "@types/node": "^14.0.27",
