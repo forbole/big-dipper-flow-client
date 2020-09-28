@@ -1,6 +1,6 @@
 import React from 'react'
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles'
-import { Paper, Box, Typography, Table, TableBody, TableCell, TableContainer, TableRow} from '@material-ui/core'
+import { Paper, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -117,10 +117,6 @@ export const ActivityDetails = ({id}:ActivityProps) => {
     const timestamp = moment.unix(parseFloat(`${tx.block.timestamp.seconds}.${tx.block.timestamp.nanos}`))
     const expiredTimestamp = moment.unix(parseFloat(`${tx.expiryBlock.timestamp.seconds}.${tx.expiryBlock.timestamp.nanos}`))
 
-    console.log(tx)
-    // const timestamp = moment.unix(parseFloat(`${block.timestamp.seconds}.${block.timestamp.nanos}`))
-
-    // console.log(block.blockSeals)
     return <React.Fragment>
         <Box mb={2}>
             <TableContainer component={Paper}>
@@ -195,8 +191,46 @@ export const ActivityDetails = ({id}:ActivityProps) => {
                     return <DynamicReactJson key={i} src={JSON.parse(utils.base64ToString(arg))} />
                 }):<Alert severity="info">No arugements.</Alert>}
             </TabPanel>
-            <TabPanel value={value} index={2}></TabPanel>
-            <TabPanel value={value} index={3}></TabPanel>
+            <TabPanel value={value} index={2}>
+                <TableContainer component={Paper}>
+                    <Table aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Addresses</TableCell>
+                                <TableCell>Signatures</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {tx.payloadSignatures.map((sig, i) => {
+                                return <TableRow key={i}>
+                                    <TableCell className="monospace"><Link href="#"><a>{utils.base64ToHex(sig.address)}</a></Link></TableCell>
+                                    <TableCell className="monospace">{sig.signature}</TableCell>
+                                </TableRow>
+                            })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+                <TableContainer component={Paper}>
+                    <Table aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Addresses</TableCell>
+                                <TableCell>Signatures</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {tx.envelopeSignatures.map((sig, i) => {
+                                return <TableRow key={i}>
+                                    <TableCell className="monospace"><Link href="#"><a>{utils.base64ToHex(sig.address)}</a></Link></TableCell>
+                                    <TableCell className="monospace">{sig.signature}</TableCell>
+                                </TableRow>
+                            })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </TabPanel>
         </Paper>
     </React.Fragment>
 }
