@@ -95,6 +95,7 @@ const Theme = createMuiTheme({
           WebkitFontSmoothing: 'auto'
         },
         a: {
+          color: '#1D86FF',
           textDecoration: 'none',
           '&:hover':{
             textDecoration: 'underline'

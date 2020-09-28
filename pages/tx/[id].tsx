@@ -21,7 +21,7 @@ export default function Activity() {
   return (
     <React.Fragment>
       <Box my={2} className={classes.activites}>
-        {/* <Title title={"Block "+(parseInt(id as string)?`#${numbro(id).format({thousandSeparated: true})}`:id)}/> */}
+        <Title title="Activity Details"/>
       </Box>
         <ActivityDetails id={id as string} />
     </React.Fragment>

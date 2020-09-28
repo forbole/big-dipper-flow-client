@@ -9,8 +9,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
-import FolderSpecialIcon from '@material-ui/icons/FolderSpecial'
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser'
+import CodeIcon from '@material-ui/icons/Code'
+import BuildRoundedIcon from '@material-ui/icons/BuildRounded'
 import { loadCSS } from 'fg-loadcss'
 import Icon from '@material-ui/core/Icon';
 import { TRANSACTION_BY_ID } from '../../queries/transactions'
@@ -21,6 +21,8 @@ import utils from '../../utils'
 import Link from 'next/link'
 import Alert from '@material-ui/lab/Alert'
 import dynamic from "next/dynamic";
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
 
@@ -112,6 +114,8 @@ export const ActivityDetails = ({id}:ActivityProps) => {
     if (error) return <div>Error :(</div>
 
     const tx = data.transaction[0]
+    const timestamp = moment.unix(parseFloat(`${tx.block.timestamp.seconds}.${tx.block.timestamp.nanos}`))
+    const expiredTimestamp = moment.unix(parseFloat(`${tx.expiryBlock.timestamp.seconds}.${tx.expiryBlock.timestamp.nanos}`))
 
     console.log(tx)
     // const timestamp = moment.unix(parseFloat(`${block.timestamp.seconds}.${block.timestamp.nanos}`))
@@ -122,31 +126,49 @@ export const ActivityDetails = ({id}:ActivityProps) => {
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                 <TableBody>
-                    {/* <TableRow>
+                    <TableRow>
+                        <TableCell component="th"><strong>Transaction ID</strong></TableCell>
+                        <TableCell className="monospace">{utils.base64ToHex(tx.id)}</TableCell>
+                    </TableRow>
+                    <TableRow>
                         <TableCell component="th"><strong>Height</strong></TableCell>
-                        <TableCell>{numbro(block.height).format({thousandSeparated:true})}</TableCell>
+                        <TableCell><Link href={`/block/${tx.block.height}`}><a>{numbro(tx.block.height).format({thousandSeparated:true})}</a></Link></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell component="th"><strong>Timestamp (UTC)</strong></TableCell>
                         <TableCell>{timestamp.utc().format("dddd, MMMM Do YYYY, h:mm:ss a")} ({timestamp.utc().fromNow()})</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell component="th"><strong>ID</strong></TableCell>
-                        <TableCell className="monospace">{utils.base64ToHex(block.id)}</TableCell>
+                        <TableCell component="th"><strong>Proposer</strong></TableCell>
+                        <TableCell className="monospace"><Link href="#"><a>{utils.base64ToHex(tx.proposalKey.address)}</a></Link></TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell component="th"><strong>Parent ID</strong></TableCell>
-                        <TableCell className="monospace">{utils.base64ToHex(block.parentId)}</TableCell>
+                        <TableCell component="th"><strong>Payer</strong></TableCell>
+                        <TableCell className="monospace"><Link href="#"><a>{utils.base64ToHex(tx.payer)}</a></Link></TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell component="th"><strong>Block Time</strong></TableCell>
-                        <TableCell>{block.blockTime} seconds</TableCell>
-                    </TableRow> */}
+                        <TableCell component="th"><strong>Expiry Height</strong></TableCell>
+                        <TableCell><Link href={`/block/${tx.expiryBlock.height}`}><a>{numbro(tx.expiryBlock.height).format({thousandSeparated:true})}</a></Link></TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th"><strong>Expiry Timestamp (UTC)</strong></TableCell>
+                        <TableCell>{expiredTimestamp.utc().format("dddd, MMMM Do YYYY, h:mm:ss a")} ({expiredTimestamp.utc().fromNow()})</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th"><strong>Gas Limit</strong></TableCell>
+                        <TableCell>{numbro(tx.gasLimit).format({thousandSeparated:true})}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th"><strong>Authorizers</strong></TableCell>
+                        <TableCell>{tx.authorizers.map((authorizer, i) => {
+                            return <><Link href="#" key={i}><a className="monospace">{utils.base64ToHex(authorizer)}</a></Link>{tx.authorizers.length > (i+1)?" | ":''}</>
+                        })}</TableCell>
+                    </TableRow>
                 </TableBody>
                 </Table>
             </TableContainer>
         </Box>
-        {/* <Paper>
+        <Paper>
             <AppBar position="static" color="inherit" elevation={0}>
                 <Tabs
                 value={value}
@@ -157,42 +179,24 @@ export const ActivityDetails = ({id}:ActivityProps) => {
                 textColor="primary"
                 aria-label="scrollable force tabs example"
                 >
-                <Tab label={`Collections (${block.collections.length})`} icon={<FolderSpecialIcon />} {...a11yProps(0)} />
-                <Tab label={`Block Seals (${block.blockSeals.length})`} icon={<VerifiedUserIcon />} {...a11yProps(1)} />
-                <Tab label="Signatures" icon={<Icon className="fas fa-file-signature" />} {...a11yProps(2)} />
+                <Tab label="Script" icon={<CodeIcon />} {...a11yProps(0)} />
+                <Tab label="Arguments" icon={<BuildRoundedIcon />} {...a11yProps(1)} />
+                <Tab label="Payload Signatures" icon={<Icon className="fas fa-signature" />} {...a11yProps(2)} />
+                <Tab label="Envelope Signatures" icon={<Icon className="fas fa-file-contract" />} {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                {(block.collections.length > 0)?
-                <Paper variant="outlined" square className={`${classes.well} monospace`}>
-                    <Typography variant="caption">
-                        {block.collections.map(col => {
-                            return <React.Fragment>
-                                <List dense key={col.id}>{col.transactionIds.map(tx => {
-                                    return <ListItem>
-                                    <ListItemIcon>
-                                        <FolderOpenIcon />
-                                    </ListItemIcon>
-                                    <Link href={`/tx/${utils.base64ToHex(tx)}`}>
-                                        <a><ListItemText
-                                            primary={utils.base64ToHex(tx)}
-                                        /></a></Link>
-                                </ListItem>
-                            })}</List></React.Fragment>
-                        })}
-                    </Typography>
-                </Paper>:<Alert severity="info">No collection found in this block.</Alert>}
+                <SyntaxHighlighter language="typescript" style={docco}>
+                    {utils.base64ToString(tx.script)}
+                </SyntaxHighlighter>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                {(block.blockSeals.length > 0)?<DynamicReactJson src={block.blockSeals} />:<Alert severity="info">No block seal found in this block.</Alert>}
+                {(tx.arguments.length > 0)?tx.arguments.map((arg, i) => {
+                    return <DynamicReactJson key={i} src={JSON.parse(utils.base64ToString(arg))} />
+                }):<Alert severity="info">No arugements.</Alert>}
             </TabPanel>
-            <TabPanel value={value} index={2}>
-                <Paper variant="outlined" square className={`${classes.well} monospace`}>
-                    <Typography variant="caption" className="monospace">
-                        {block.signatures}
-                    </Typography>
-                </Paper>
-            </TabPanel>
-        </Paper> */}
+            <TabPanel value={value} index={2}></TabPanel>
+            <TabPanel value={value} index={3}></TabPanel>
+        </Paper>
     </React.Fragment>
 }
