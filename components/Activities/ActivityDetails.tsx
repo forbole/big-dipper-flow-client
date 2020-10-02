@@ -189,7 +189,7 @@ export const ActivityDetails = ({id}:ActivityProps) => {
             <TabPanel value={value} index={1}>
                 {(tx.arguments.length > 0)?tx.arguments.map((arg, i) => {
                     return <DynamicReactJson key={i} src={JSON.parse(utils.base64ToString(arg))} />
-                }):<Alert severity="info">No arugements.</Alert>}
+                }):<Alert severity="info">No arguement.</Alert>}
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <TableContainer component={Paper}>
