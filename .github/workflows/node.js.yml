@@ -24,6 +24,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: |
+        touch .env
+        echo NEXTJS_ENV=${{secrets.NEXTJS_ENV}} >> .env
+        cat .env
     - run: yarn install
     - run: yarn build
     - run: pm2 reload next-js
