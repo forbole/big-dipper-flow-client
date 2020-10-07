@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme: Theme) =>
     titleSM: {
       flexGrow: 1,
     },
+    logo: {
+      maxHeight: '3rem',
+      marginTop: '0.5rem'
+    },
     mobileMenu: {
       width: 250,
       '& a': {
@@ -104,7 +108,7 @@ const Layout = (props: { children: React.ReactNode; }) => {
         <Toolbar disableGutters={true}>
           <Box pr={2} className={(smMatches) ? `${classes.title} ${classes.titleSM}` : classes.title}>
             <Typography variant="h5" component="h1">
-                <img src="/img/flow-logo.svg" />
+                <img src="/img/flow-logo.svg" className={classes.logo}/>
             </Typography>
           </Box>
           <Hidden xsDown>
