@@ -26,7 +26,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: |
         touch .env
-        echo NEXTJS_ENV=${{secrets.NEXTJS_ENV}} >> .env
+        echo ${{secrets.NEXTJS_ENV}} >> .env
         cat .env
     - run: yarn install
     - run: yarn build
