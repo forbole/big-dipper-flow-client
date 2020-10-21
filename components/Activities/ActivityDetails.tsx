@@ -4,11 +4,6 @@ import { Paper, Box, Typography, Table, TableBody, TableCell, TableContainer, Ta
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import CodeIcon from '@material-ui/icons/Code'
 import BuildRoundedIcon from '@material-ui/icons/BuildRounded'
 import { loadCSS } from 'fg-loadcss'
