@@ -59,7 +59,7 @@ export const ActivitiesList = ({size, home = false}:ListProps) => {
                     {data.transaction.map((tx:any) => (
                     <TableRow key={tx.id}>
                         <TableCell scope="row" className={classes.tableCell}>
-                            <Link href="#">
+                            <Link href={`/account/${utils.base64ToHex(tx.proposalKey.address)}`}>
                                 <a className="monospace">{utils.base64ToHex(tx.proposalKey.address)}</a>
                             </Link> sent <Link href={`/tx/${utils.base64ToHex(tx.id)}`}><a className="monospace">{utils.base64ToHex(tx.id)}</a></Link>
                         </TableCell>

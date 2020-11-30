@@ -131,11 +131,11 @@ export const ActivityDetails = ({id}:ActivityProps) => {
                     </TableRow>
                     <TableRow>
                         <TableCell component="th"><strong>Proposer</strong></TableCell>
-                        <TableCell className="monospace"><Link href="#"><a>{utils.base64ToHex(tx.proposalKey.address)}</a></Link></TableCell>
+                        <TableCell className="monospace"><Link href={`/account/${utils.base64ToHex(tx.proposalKey.address)}`}><a>{utils.base64ToHex(tx.proposalKey.address)}</a></Link></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell component="th"><strong>Payer</strong></TableCell>
-                        <TableCell className="monospace"><Link href="#"><a>{utils.base64ToHex(tx.payer)}</a></Link></TableCell>
+                        <TableCell className="monospace"><Link href={`/account/${utils.base64ToHex(tx.payer)}`}><a>{utils.base64ToHex(tx.payer)}</a></Link></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell component="th"><strong>Expiry Height</strong></TableCell>
@@ -152,7 +152,7 @@ export const ActivityDetails = ({id}:ActivityProps) => {
                     <TableRow>
                         <TableCell component="th"><strong>Authorizers</strong></TableCell>
                         <TableCell>{tx.authorizers.map((authorizer, i) => {
-                            return <><Link href="#" key={i}><a className="monospace">{utils.base64ToHex(authorizer)}</a></Link>{tx.authorizers.length > (i+1)?" | ":''}</>
+                            return <><Link href={`/account/${utils.base64ToHex(authorizer)}`} key={i}><a className="monospace">{utils.base64ToHex(authorizer)}</a></Link>{tx.authorizers.length > (i+1)?" | ":''}</>
                         })}</TableCell>
                     </TableRow>
                 </TableBody>
@@ -198,7 +198,7 @@ export const ActivityDetails = ({id}:ActivityProps) => {
                         <TableBody>
                             {tx.payloadSignatures.map((sig, i) => {
                                 return <TableRow key={i}>
-                                    <TableCell className="monospace"><Link href="#"><a>{utils.base64ToHex(sig.address)}</a></Link></TableCell>
+                                    <TableCell className="monospace"><Link href={`/account/${utils.base64ToHex(sig.address)}`}><a>{utils.base64ToHex(sig.address)}</a></Link></TableCell>
                                     <TableCell className="monospace">{sig.signature}</TableCell>
                                 </TableRow>
                             })}
@@ -218,7 +218,7 @@ export const ActivityDetails = ({id}:ActivityProps) => {
                         <TableBody>
                             {tx.envelopeSignatures.map((sig, i) => {
                                 return <TableRow key={i}>
-                                    <TableCell className="monospace"><Link href="#"><a>{utils.base64ToHex(sig.address)}</a></Link></TableCell>
+                                    <TableCell className="monospace"><Link href={`/account/${utils.base64ToHex(sig.address)}`}><a>{utils.base64ToHex(sig.address)}</a></Link></TableCell>
                                     <TableCell className="monospace">{sig.signature}</TableCell>
                                 </TableRow>
                             })}
