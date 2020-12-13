@@ -12,9 +12,18 @@ const base64ToString = (text:string):string => {
     return Buffer.from(text, 'base64').toString()
 }
 
+const bytesToString = (bytes:Array<number>):string => {
+    let code:string = ''
+    for (let i in bytes){
+        code += String.fromCharCode(bytes[i])
+    }
+    return code
+}
+
 export default { 
     base64ToHex,
     base64ToString,
     hexToBase64,
+    bytesToString,
     blocks
 }

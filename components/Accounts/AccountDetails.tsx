@@ -134,15 +134,15 @@ export const AccountDetails = ({address}:AccountProps) => {
                 textColor="primary"
                 aria-label="scrollable force tabs example"
                 >
-                <Tab label={`Code`} icon={<CodeIcon />} {...a11yProps(0)} />
+                <Tab label={`Contracts (${account.contractsMap.length})`} icon={<CodeIcon />} {...a11yProps(0)} />
                 <Tab label={`Key list (${account.keysList.length})`} icon={<VerifiedUserIcon />} {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                {(account.code.length > 0)?
-                <SyntaxHighlighter language="typescript" style={docco}>
-                    {utils.base64ToString(account.code)}
-                </SyntaxHighlighter>:<Alert severity="info">No code is available.</Alert>}
+                {(account.contractsMap.length > 0)?
+                account.contractsMap.map((contract, i) => <React.Fragment key={i}><p>{contract[0]}</p><SyntaxHighlighter language="typescript" style={docco}>
+                    {utils.bytesToString(contract[1])}
+                </SyntaxHighlighter></React.Fragment>):<Alert severity="info">No code is available.</Alert>}
             </TabPanel>
             <TabPanel value={value} index={1}>
                 {(account.keysList.length > 0)?<DynamicReactJson src={account.keysList} />:<Alert severity="info">No keys list is found.</Alert>}
