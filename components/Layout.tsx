@@ -147,6 +147,35 @@ const Layout = (props: { children: React.ReactNode; }) => {
       return ""
   }
 
+  const search = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter'){
+      // console.log(event.currentTarget.value)
+      const searchQuery = event.currentTarget.value
+
+      if (searchQuery.match(/^0x[0-9A-Fa-f]{16}$/g) || searchQuery.match(/^[0-9A-Fa-f]{16}$/g)){
+        if (searchQuery.length == 18){
+          router.push(`/account/${searchQuery}`)
+        }
+        else{
+          router.push(`/account/0x${searchQuery}`)
+        }
+      }
+      else if  (searchQuery.match(/^0x[0-9A-Fa-f]{64}$/g) || searchQuery.match(/^[0-9A-Fa-f]{64}$/g)){
+        if (searchQuery.length == 66){
+          router.push(`/tx/${searchQuery}`)
+        }
+        else{
+          router.push(`/tx/0x${searchQuery}`)
+        }
+      }
+      else if (Number(searchQuery)){
+        router.push(`/block/${searchQuery}`)
+      }
+
+      event.currentTarget.value = ""
+    }
+  }
+
   return (
     <React.Fragment>
       <AppBar position="static" className={classes.appBar} elevation={0}>
@@ -180,7 +209,10 @@ const Layout = (props: { children: React.ReactNode; }) => {
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
-                inputProps={{ 'aria-label': 'search' }}
+                inputProps={{ 
+                  'aria-label': 'search',
+                  onKeyDown: search
+                }}
               />
             </div>
           </Hidden>
@@ -190,7 +222,25 @@ const Layout = (props: { children: React.ReactNode; }) => {
             </IconButton>
             <Drawer anchor='right' open={drawerState['right']} onClose={toggleDrawer(false)}>
               <div className={classes.mobileMenu}>
-                <List component="nav" aria-label="dashboard blocks activities">
+                <List component="nav" aria-label="dashboard nodes blocks activities">
+                  <ListItem button>
+                  <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Height / Account / Tx"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 
+                  'aria-label': 'search',
+                  onKeyDown: search
+                }}
+              />
+            </div>
+                  </ListItem>
                   <ListItem button>
                     <Link href="/">
                       <a><ListItemText primary="Dashboard" /></a>
