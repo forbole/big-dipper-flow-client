@@ -12,9 +12,10 @@ import { useQuery } from '@apollo/client'
 import moment from 'moment'
 import utils from '../../utils'
 import Alert from '@material-ui/lab/Alert'
-import dynamic from "next/dynamic";
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import dynamic from "next/dynamic"
+import numbro from 'numbro'
+import SyntaxHighlighter from 'react-syntax-highlighter'
+import { docco } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
 
@@ -117,7 +118,7 @@ export const AccountDetails = ({address}:AccountProps) => {
                     </TableRow>
                     <TableRow>
                         <TableCell component="th"><strong>Balance</strong></TableCell>
-                        <TableCell>{account.balance}</TableCell>
+                        <TableCell>{numbro(account.balance/utils.types.FLOW_FRACTION).format({thousandSeparated: true})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>
                 </TableBody>
                 </Table>
