@@ -1,4 +1,5 @@
 import blocks from './blocks'
+import * as types from './types'
 
 const base64ToHex = (address:string):string => {
     return `0x${Buffer.from(address, 'base64').toString('hex')}`
@@ -25,5 +26,6 @@ export default {
     base64ToString,
     hexToBase64,
     bytesToString,
+    types,
     blocks
 }

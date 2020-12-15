@@ -1,0 +1,7 @@
+const FLOW_DENOM = 'FLOW'
+const FLOW_FRACTION = 100000000
+
+export {
+    FLOW_DENOM,
+    FLOW_FRACTION
+}
