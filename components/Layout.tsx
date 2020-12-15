@@ -1,10 +1,12 @@
 import React from 'react'
-import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles'
+import { createStyles, fade, makeStyles, Theme, useTheme } from '@material-ui/core/styles'
 import { Hidden, Container, Box, Typography, AppBar, IconButton, Drawer, MenuItem, Toolbar } from '@material-ui/core'
 import List from '@material-ui/core/List'
 import ListItem, { ListItemProps } from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import MenuIcon from '@material-ui/icons/Menu'
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
 import Footer from './Footer'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -57,6 +59,50 @@ const useStyles = makeStyles((theme: Theme) =>
           backgroundSize: '100% 0.35rem'
         }
       }
+    },
+    search: {
+      position: 'relative',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: fade(theme.palette.secondary.main, 0.15),
+      '&:hover': {
+        backgroundColor: fade(theme.palette.secondary.main, 0.25),
+      },
+      width: '100%',
+      marginLeft: 0,
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
+        width: 'auto',
+      },
+      borderColor: theme.palette.primary.main,
+      borderWidth: '1px',
+      flexGrow: 1,
+      marginTop: '-0.28rem'
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    inputRoot: {
+      color: 'inherit',
+      width: '100%'
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      // [theme.breakpoints.up('sm')]: {
+      //   width: '12ch',
+      //   '&:focus': {
+      //     width: '20ch',
+      //   },
+      // },
     }
   }),
 );
@@ -101,6 +147,35 @@ const Layout = (props: { children: React.ReactNode; }) => {
       return ""
   }
 
+  const search = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter'){
+      // console.log(event.currentTarget.value)
+      const searchQuery = event.currentTarget.value
+
+      if (searchQuery.match(/^0x[0-9A-Fa-f]{16}$/g) || searchQuery.match(/^[0-9A-Fa-f]{16}$/g)){
+        if (searchQuery.length == 18){
+          router.push(`/account/${searchQuery}`)
+        }
+        else{
+          router.push(`/account/0x${searchQuery}`)
+        }
+      }
+      else if  (searchQuery.match(/^0x[0-9A-Fa-f]{64}$/g) || searchQuery.match(/^[0-9A-Fa-f]{64}$/g)){
+        if (searchQuery.length == 66){
+          router.push(`/tx/${searchQuery}`)
+        }
+        else{
+          router.push(`/tx/0x${searchQuery}`)
+        }
+      }
+      else if (Number(searchQuery)){
+        router.push(`/block/${searchQuery}`)
+      }
+
+      event.currentTarget.value = ""
+    }
+  }
+
   return (
     <React.Fragment>
       <AppBar position="static" className={classes.appBar} elevation={0}>
@@ -124,6 +199,22 @@ const Layout = (props: { children: React.ReactNode; }) => {
             <Link href="/activities">
               <MenuItem component="a" className={isActive("activities")}>Activities</MenuItem>
             </Link>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Block Height / Account / Transaction"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 
+                  'aria-label': 'search',
+                  onKeyDown: search
+                }}
+              />
+            </div>
           </Hidden>
           <Hidden smUp>
             <IconButton edge="start" className={classes.menuButton} onClick={toggleDrawer(true)} color="inherit" aria-label="menu">
@@ -131,7 +222,25 @@ const Layout = (props: { children: React.ReactNode; }) => {
             </IconButton>
             <Drawer anchor='right' open={drawerState['right']} onClose={toggleDrawer(false)}>
               <div className={classes.mobileMenu}>
-                <List component="nav" aria-label="dashboard blocks activities">
+                <List component="nav" aria-label="dashboard nodes blocks activities">
+                  <ListItem button>
+                  <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Height / Account / Tx"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 
+                  'aria-label': 'search',
+                  onKeyDown: search
+                }}
+              />
+            </div>
+                  </ListItem>
                   <ListItem button>
                     <Link href="/">
                       <a><ListItemText primary="Dashboard" /></a>
