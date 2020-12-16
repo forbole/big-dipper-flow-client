@@ -42,12 +42,12 @@ export default function Block() {
             <Title title={"Block "+(parseInt(id as string)?`#${numbro(id).format({thousandSeparated: true})}`:id)}/>
           </Grid>
           <Grid container xs={6} justify="flex-end">
-            <Link href={`/block/${parseInt(id)-1}`}>
+            <Link href={`/block/${parseInt(id as string)-1}`}>
               <a><IconButton aria-label="Back">
                 <ChevronLeftIcon />
               </IconButton></a>
             </Link>
-            <Link href={`/block/${parseInt(id)+1}`}>
+            <Link href={`/block/${parseInt(id as string)+1}`}>
               <a><IconButton aria-label="Next" disabled={(data.chain_state.latestHeight <= parseInt(id as string))}>
                 <ChevronRightIcon />
               </IconButton></a>
