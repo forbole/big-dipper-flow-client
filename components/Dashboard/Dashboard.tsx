@@ -5,6 +5,7 @@ import { BlocksList } from '../Blocks/BlocksList'
 import { ActivitiesList } from '../Activities/ActivitiesList'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { CHAIN_STATUS } from '../../queries/chain'
+import { TRANSACTION_COUNT } from '../../queries/transactions'
 import { useQuery } from '@apollo/client'
 import numbro from 'numbro'
 
@@ -63,6 +64,10 @@ export const Dashboard = () => {
         pollInterval: 1000
     })
 
+    const countResult = useQuery(TRANSACTION_COUNT, {
+        pollInterval: 2500
+    })
+
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error :(</div>
 
@@ -88,7 +93,7 @@ export const Dashboard = () => {
             <Paper className={`${classes.card} ${mdMatches?classes.cardMd:''} ${classes.cardC}`}>
                 # of Transactions
                 <Typography variant="h3">
-                    {numbro(data.transaction_aggregate.aggregate.count).format({thousandSeparated: true})}
+                    {countResult.data?numbro(countResult.data.transaction_aggregate.aggregate.count).format({thousandSeparated: true}):'...'}
                 </Typography>
             </Paper>
             </Grid>

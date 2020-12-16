@@ -7,11 +7,6 @@ export const CHAIN_STATUS = gql`
       latestHeight
       latestTimestamp
     }
-    transaction_aggregate {
-      aggregate {
-        count
-      }
-    }
   }
 `
 
