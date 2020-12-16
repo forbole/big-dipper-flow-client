@@ -12,8 +12,17 @@ export const BLOCKS_LIST = gql`
             }
         }
     }
+`
 
-` 
+export const BLOCK_COUNT = gql`
+    query BlockCount {
+        block_aggregate {
+            aggregate {
+                count
+            }
+        }
+    }
+`
 export const BLOCK_BY_HEIGHT = gql`
     query Block($height: Int) {
         block(where: {height: {_eq: $height}}) {

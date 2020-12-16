@@ -1,11 +1,11 @@
 import React from 'react'
-import { Paper, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core';
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import Title from '../Title'
+import TablePagination from '@material-ui/core/TablePagination'
 import Link from 'next/link'
 import { useQuery } from '@apollo/client';
-import { BLOCKS_LIST } from '../../queries/blocks'
+import { BLOCKS_LIST, BLOCK_COUNT } from '../../queries/blocks'
 import { TableLoader } from '../Loaders'
 import utils from '../../utils'
 import moment from 'moment'
@@ -48,12 +48,34 @@ export const BlocksList = ({size, home = false}:ListProps) => {
     const theme = useTheme()
     const smMatches = useMediaQuery(theme.breakpoints.down('xs'))
 
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const { loading, error, data } = useQuery(BLOCKS_LIST, {
-        pollInterval: 1000
+        pollInterval: 1000,
+        variables: {
+            offset: page*rowsPerPage,
+            limit: rowsPerPage
+        }
     })
+
+    const countResult = useQuery(BLOCK_COUNT, {
+        pollInterval: 1000,
+    })
+
 
     if (loading) return <TableLoader />
     if (error) return <div>Error :(</div>
+
+    const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+        setPage(newPage);
+    };
+    
+    const handleChangeRowsPerPage = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
 
     return (
         <React.Fragment>
@@ -83,9 +105,17 @@ export const BlocksList = ({size, home = false}:ListProps) => {
                 </TableBody>
                 </Table>
             </TableContainer>
+            
             {home?<Link href="/blocks">
                 <a className={classes.moreLink}>see more</a>
-            </Link>:''}
+            </Link>:<TablePagination
+                component="div"
+                count={countResult.data?Math.ceil(countResult.data.block_aggregate.aggregate.count/rowsPerPage):100}
+                page={page}
+                onChangePage={handleChangePage}
+                rowsPerPage={rowsPerPage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+            />}
         </React.Fragment>
     )
 }
