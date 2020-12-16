@@ -15,6 +15,16 @@ export const TRANSACTIONS_LIST = gql`
     }
 `
 
+export const TRANSACTION_COUNT = gql`
+    query TransactionCount {
+        transaction_aggregate {
+            aggregate {
+                count
+            }
+        }
+    }
+`
+
 export const TRANSACTION_BY_ID = gql`
     query Transaction($id: String) {
         transaction(where: {id: {_eq: $id}}, limit: 1) {

@@ -7,10 +7,13 @@ export const CHAIN_STATUS = gql`
       latestHeight
       latestTimestamp
     }
-    transaction_aggregate {
-      aggregate {
-        count
-      }
+  }
+`
+
+export const LATEST_HEIGHT = gql`
+  query LatestHeight {
+    chain_state {
+      latestHeight
     }
   }
-`;
+`
