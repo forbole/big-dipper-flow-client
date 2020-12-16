@@ -6,6 +6,7 @@ import Layout from '../components/Layout'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Theme from '../themes/Theme';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { init } from "@socialgouv/matomo-next"
 
 const client = new ApolloClient({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_HOST,
@@ -21,6 +22,8 @@ export default function BigDipper(props:any) {
     if (jssStyles && jssStyles.parentElement) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
+
+    init({ url: "https://analytics.forbole.com", siteId: 2 });
   }, []);
 
   return (

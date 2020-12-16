@@ -1236,6 +1236,11 @@
   dependencies:
     mkdirp "^1.0.4"
 
+"@socialgouv/matomo-next@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@socialgouv/matomo-next/-/matomo-next-1.1.2.tgz#90c15215b6d006f7c50ea3c914802508fd507a3f"
+  integrity sha512-lyTzZ5Za+9IhwGTO5TkHG5IxQLaRx5jEZHJl3NvDqQ2Co899+Av/JEdoyeZgQ1daJRURbEcFnhqCHwM7a+EuRg==
+
 "@types/hast@^2.0.0":
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/@types/hast/-/hast-2.3.1.tgz#b16872f2a6144c7025f296fb9636a667ebb79cd9"
