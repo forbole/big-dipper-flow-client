@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme: Theme) =>
         table:{
             tableLayout: 'fixed'
         },
+        tableRow:{
+            height: '2.8125rem'
+        },
         tableCell:{
             textOverflow: "ellipsis",
             overflow: 'hidden',
@@ -66,7 +69,7 @@ export const BlocksList = ({size, home = false}:ListProps) => {
                 </TableHead>
                 <TableBody>
                     {data.block.map((block:any) => (
-                    <TableRow key={block.height}>
+                    <TableRow key={block.height} className={classes.tableRow}>
                         <TableCell component="th" scope="row">
                             <Link href={"/block/"+block.height}>
                                 <a>{numbro(block.height).format({thousandSeparated: true})}</a>

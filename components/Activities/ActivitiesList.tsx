@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, Box, Typography, Table, TableBody, TableCell, TableContainer, TableRow, Chip} from '@material-ui/core';
+import { Paper, Box, TableHead, Table, TableBody, TableCell, TableContainer, TableRow, Chip} from '@material-ui/core';
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Title from '../Title'
@@ -19,10 +19,16 @@ const useStyles = makeStyles((theme: Theme) =>
         table:{
             tableLayout: 'fixed'
         },
+        tableRow:{
+            height: '2.8125rem'
+        },
         tableCell:{
             textOverflow: "ellipsis",
             overflow: 'hidden',
             whiteSpace: 'nowrap',
+            width: '50%'
+        },
+        tableHeadTx:{
             width: '50%'
         },
         status: {
@@ -55,21 +61,29 @@ export const ActivitiesList = ({size, home = false}:ListProps) => {
         <React.Fragment>
             <TableContainer >
                 <Table aria-label="simple table" className={classes.table} size={size}>
+                <TableHead>
+                    <TableRow>
+                    <TableCell className={classes.tableHeadTx} style={{fontWeight:700}}>Activity</TableCell>
+                    <TableCell align="right" style={{fontWeight:700}}>Result</TableCell>
+                    <TableCell align="right" style={{fontWeight:700}}>Time</TableCell>
+                    </TableRow>
+                </TableHead>
                 <TableBody>
                     {data.transaction.map((tx:any) => (
-                    <TableRow key={tx.id}>
+                    <TableRow key={tx.id} className={classes.tableRow}>
                         <TableCell scope="row" className={classes.tableCell}>
                             <Link href={`/account/${utils.base64ToHex(tx.proposalKey.address)}`}>
                                 <a className="monospace">{utils.base64ToHex(tx.proposalKey.address)}</a>
                             </Link> sent <Link href={`/tx/${utils.base64ToHex(tx.id)}`}><a className="monospace">{utils.base64ToHex(tx.id)}</a></Link>
                         </TableCell>
                         <TableCell align="right">
-                            <Chip 
+                            {/* <Chip 
                                 color="secondary" 
                                 label={tx.transactionResult?tx.transactionResult.status:'UNKNOWN'}
                                 size="small"
                                 className={classes.status}
-                            />
+                            /> */}
+                            {tx.transactionResult?tx.transactionResult.status:'UNKNOWN'}
                         </TableCell>
                         <TableCell align="right">{moment.unix(parseFloat(`${tx.block.timestamp.seconds}.${tx.block.timestamp.nanos}`)).utc().fromNow()}</TableCell>
                     </TableRow>
