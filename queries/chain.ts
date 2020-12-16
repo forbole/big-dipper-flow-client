@@ -13,4 +13,12 @@ export const CHAIN_STATUS = gql`
       }
     }
   }
-`;
+`
+
+export const LATEST_HEIGHT = gql`
+  query LatestHeight {
+    chain_state {
+      latestHeight
+    }
+  }
+`

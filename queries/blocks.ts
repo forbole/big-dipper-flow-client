@@ -26,21 +26,21 @@ export const BLOCK_COUNT = gql`
 export const BLOCK_BY_HEIGHT = gql`
     query Block($height: Int) {
         block(where: {height: {_eq: $height}}) {
-        id
-        height
-        parentId
-        signatures
-        timestamp
-        collections {
             id
-            transactionIds
-        }
-        collections_aggregate {
-            aggregate {
-                count(columns: id)
+            height
+            parentId
+            signatures
+            timestamp
+            collections {
+                id
+                transactionIds
             }
-        }
-        collectionGuarantees
+            collections_aggregate {
+                aggregate {
+                    count(columns: id)
+                }
+            }
+            collectionGuarantees
             blockTime
             blockSeals
         }
