@@ -43,7 +43,7 @@ export const NodesListTable = ({type}:TableProps) => {
             <TableHead>
                 <TableRow>
                     <TableCell style={{fontWeight:700}}>Address</TableCell>
-                    <TableCell style={{fontWeight:700}}>Stake</TableCell>
+                    <TableCell style={{fontWeight:700}} align="right">Stake</TableCell>
                     <TableCell style={{fontWeight:700}}>Node Id</TableCell>
                 </TableRow>
             </TableHead>
@@ -51,7 +51,7 @@ export const NodesListTable = ({type}:TableProps) => {
                 {data.node.map((node:any) => (
                 <TableRow >
                     <TableCell className={`${classes.tableCell} monospace`}>{node.address}</TableCell>
-                    <TableCell className={`${classes.tableCell} monospace`}>{stakingNodes.data?numbro(stakingNodes.data.stakingNodes.nodes[node.nodeId]).format({thousandSeparated: true}):''}</TableCell>
+                    <TableCell className={`${classes.tableCell} monospace`} align="right">{stakingNodes.data.stakingNodes.nodes[node.nodeId]?numbro(stakingNodes.data.stakingNodes.nodes[node.nodeId]).format({thousandSeparated: true, mantissa: 8}):'N/A'}</TableCell>
                     <TableCell className={`${classes.tableCell} monospace`}>{node.nodeId}</TableCell>
                 </TableRow>
                 ))}
