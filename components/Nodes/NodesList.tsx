@@ -72,10 +72,6 @@ export const NodesList = () => {
 
     const nodeTypes = [
         {
-            type: 'verification',
-            label: 'Verification'
-        },
-        {
             type: 'execution',
             label: 'Execution'
         },
@@ -86,6 +82,10 @@ export const NodesList = () => {
         {
             type: 'collection',
             label: 'Collection'
+        },
+        {
+            type: 'verification',
+            label: 'Verification'
         },
         {
             type: 'access',
@@ -109,11 +109,6 @@ export const NodesList = () => {
                         {nodeTypes.map((type, i) => {
                             return <Tab key={i} label={type.label} {...a11yProps(i)} />
                         })}
-{/*                         
-                        <Tab label="Collection" {...a11yProps(1)} />
-                        <Tab label="Consensus" {...a11yProps(2)} />
-                        <Tab label="Execution" {...a11yProps(3)} />
-                        <Tab label="Verification" {...a11yProps(4)} /> */}
                     </Tabs>
                 </AppBar>
                 {nodeTypes.map((type, i) => {
