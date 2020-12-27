@@ -3,7 +3,7 @@ import React from 'react'
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import { useQuery } from '@apollo/client';
-import { NODES } from '../../queries/nodes'
+import { NODES, STAKING_NODES} from '../../queries/nodes'
 import { TableLoader } from '../Loaders'
 import numbro from 'numbro'
 
@@ -29,8 +29,12 @@ export const NodesListTable = ({type}:TableProps) => {
         variables:{type:type}
     })
 
+    const stakingNodes = useQuery(STAKING_NODES)
+
     if (loading) return <TableLoader />
     if (error) return <div>Error :(</div>
+
+    if (stakingNodes.data) console.log(stakingNodes.data)
 
     return <React.Fragment>
             <Box px={2}>No. of {type} nodes: {data.node_aggregate.aggregate.count}</Box>
@@ -47,7 +51,7 @@ export const NodesListTable = ({type}:TableProps) => {
                 {data.node.map((node:any) => (
                 <TableRow >
                     <TableCell className={`${classes.tableCell} monospace`}>{node.address}</TableCell>
-                    <TableCell className={`${classes.tableCell} monospace`}>{numbro(node.stake).format({thousandSeparated: true})}</TableCell>
+                    <TableCell className={`${classes.tableCell} monospace`}>{stakingNodes.data?numbro(stakingNodes.data.stakingNodes.nodes[node.nodeId]).format({thousandSeparated: true}):''}</TableCell>
                     <TableCell className={`${classes.tableCell} monospace`}>{node.nodeId}</TableCell>
                 </TableRow>
                 ))}

@@ -17,3 +17,11 @@ export const NODES = gql`
         }
     }
 `;
+
+export const STAKING_NODES = gql`
+    query StakingNodes{
+        stakingNodes{
+            nodes
+        }
+    }
+`;
