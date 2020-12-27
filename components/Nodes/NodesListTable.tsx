@@ -29,12 +29,10 @@ export const NodesListTable = ({type}:TableProps) => {
         variables:{type:type}
     })
 
-    const stakingNodes = useQuery(STAKING_NODES)
+    const staking = useQuery(STAKING_NODES)
 
-    if (loading) return <TableLoader />
-    if (error) return <div>Error :(</div>
-
-    if (stakingNodes.data) console.log(stakingNodes.data)
+    if (loading || staking.loading) return <TableLoader />
+    if (error || staking.error) return <div>Error :(</div>
 
     return <React.Fragment>
             <Box px={2}>No. of {type} nodes: {data.node_aggregate.aggregate.count}</Box>
@@ -48,10 +46,10 @@ export const NodesListTable = ({type}:TableProps) => {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {data.node.map((node:any) => (
-                <TableRow >
+                {data.node.map((node:any, i) => (
+                <TableRow key={i}>
                     <TableCell className={`${classes.tableCell} monospace`}>{node.address}</TableCell>
-                    <TableCell className={`${classes.tableCell} monospace`} align="right">{(stakingNodes.data&&stakingNodes.data.stakingNodes.nodes[node.nodeId])?numbro(stakingNodes.data.stakingNodes.nodes[node.nodeId]).format({thousandSeparated: true, mantissa: 8}):'N/A'}</TableCell>
+                    <TableCell className={`${classes.tableCell} monospace`} align="right">{(staking.data&&staking.data.stakingNodes.nodes[node.nodeId])?numbro(staking.data.stakingNodes.nodes[node.nodeId]).format({thousandSeparated: true, mantissa: 8}):'N/A'}</TableCell>
                     <TableCell className={`${classes.tableCell} monospace`}>{node.nodeId}</TableCell>
                 </TableRow>
                 ))}
