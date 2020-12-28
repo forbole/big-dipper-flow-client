@@ -4,10 +4,13 @@ import { Paper, Box, Typography, Table, TableBody, TableCell, TableContainer, Ta
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import CodeIcon from '@material-ui/icons/Code'
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser'
 import { loadCSS } from 'fg-loadcss'
 import { ACCOUNT } from '../../queries/accounts'
+import { TRANSACTION_COUNT_BY_ACCOUNT } from '../../queries/transactions'
+import { ActivitiesList } from '../Activities/ActivitiesList'
 import { useQuery } from '@apollo/client'
 import moment from 'moment'
 import utils from '../../utils'
@@ -102,6 +105,15 @@ export const AccountDetails = ({address}:AccountProps) => {
         variables: {address:utils.hexToBase64(address as string)}
     })
 
+    const txCountResult = useQuery(TRANSACTION_COUNT_BY_ACCOUNT, {
+      pollInterval: 10000,
+      variables: {
+        proposalKey:{
+          address:utils.hexToBase64(address as string)
+        }
+      }
+    })
+
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error :(</div>
 
@@ -135,17 +147,21 @@ export const AccountDetails = ({address}:AccountProps) => {
                 textColor="primary"
                 aria-label="scrollable force tabs example"
                 >
-                <Tab label={`Contracts (${account.contractsMap.length})`} icon={<CodeIcon />} {...a11yProps(0)} />
-                <Tab label={`Key list (${account.keysList.length})`} icon={<VerifiedUserIcon />} {...a11yProps(1)} />
+                <Tab label={`Activities (${txCountResult.data?numbro(txCountResult.data.transaction_aggregate.aggregate.count).format({thousandSeparated: true}):0})`} icon={<LocalActivityIcon />} {...a11yProps(0)} />
+                <Tab label={`Contracts (${account.contractsMap.length})`} icon={<CodeIcon />} {...a11yProps(1)} />
+                <Tab label={`Key list (${account.keysList.length})`} icon={<VerifiedUserIcon />} {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
+                <ActivitiesList account={utils.hexToBase64(address as string)} />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
                 {(account.contractsMap.length > 0)?
                 account.contractsMap.map((contract, i) => <React.Fragment key={i}><p>{contract[0]}</p><SyntaxHighlighter language="typescript" style={docco}>
                     {utils.bytesToString(contract[1])}
                 </SyntaxHighlighter></React.Fragment>):<Alert severity="info">No code is available.</Alert>}
             </TabPanel>
-            <TabPanel value={value} index={1}>
+            <TabPanel value={value} index={2}>
                 {(account.keysList.length > 0)?<DynamicReactJson src={account.keysList} />:<Alert severity="info">No keys list is found.</Alert>}
             </TabPanel>
         </Paper>

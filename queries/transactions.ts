@@ -15,11 +15,43 @@ export const TRANSACTIONS_LIST = gql`
     }
 `
 
+export const TRANSACTIONS_LIST_BY_ACCOUNT = gql`
+    query TransactionsList($limit: Int = 10, $offset: Int = 0, $order: [transaction_order_by!] = {height: desc}, $proposalKey: jsonb) {
+        transaction(limit: 10, order_by: $order, offset: $offset, where: {proposalKey: {_contains: $proposalKey}}) {
+            collectionId
+            height
+            id
+            payer
+            proposalKey
+            transactionResult
+            block {
+                height
+                timestamp
+            }
+          }
+          transaction_aggregate(where: {proposalKey: {_contains: $proposalKey}}) {
+            aggregate {
+              count
+            }
+          }
+    }
+`
+
 export const TRANSACTION_COUNT = gql`
     query TransactionCount {
         transaction_aggregate {
             aggregate {
                 count
+            }
+        }
+    }
+`
+
+export const TRANSACTION_COUNT_BY_ACCOUNT = gql`
+    query TransactionCount($proposalKey: jsonb) {
+        transaction_aggregate(where: {proposalKey: {_contains: $proposalKey}}) {
+            aggregate {
+              count
             }
         }
     }
