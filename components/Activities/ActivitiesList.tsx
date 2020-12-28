@@ -5,7 +5,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import TablePagination from '@material-ui/core/TablePagination'
 import Link from 'next/link'
 import { useQuery } from '@apollo/client';
-import { TRANSACTIONS_LIST, TRANSACTION_COUNT } from '../../queries/transactions'
+import { TRANSACTIONS_LIST, TRANSACTIONS_LIST_BY_ACCOUNT, TRANSACTION_COUNT } from '../../queries/transactions'
 import { TableLoader } from '../Loaders'
 import moment from 'moment'
 import numbro from 'numbro'
@@ -43,29 +43,66 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 )
 
-type ListProps = { size?: 'small', home?: boolean }
+type ListProps = { size?: 'small', home?: boolean, account?: string }
+type Variable = { 
+    pollInterval: number, 
+    variables: {
+        offset: number,
+        limit: number,
+        proposalKey?: {
+            address: string
+        }
+    }
+}
 
-export const ActivitiesList = ({size, home = false}:ListProps) => {
+export const ActivitiesList = ({size, home = false, account}:ListProps) => {
     const classes = useStyles()
     const theme = useTheme()
     const smMatches = useMediaQuery(theme.breakpoints.down('xs'))
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const { loading, error, data } = useQuery(TRANSACTIONS_LIST, {
+
+    let query = TRANSACTIONS_LIST
+    let variables:Variable = {
         pollInterval: 1000,
         variables: {
             offset: page*rowsPerPage,
             limit: rowsPerPage
         }
-    })
+    }
 
-    const countResult = useQuery(TRANSACTION_COUNT, {
-        pollInterval: 1000,
-    })
+    let countResult 
+
+    if (account){
+        query = TRANSACTIONS_LIST_BY_ACCOUNT
+        variables = {
+            pollInterval: 1000,
+            variables: {
+                offset: page*rowsPerPage,
+                limit: rowsPerPage,
+                proposalKey: {
+                    address: account
+                }
+            }
+        }
+    }
+    const { loading, error, data } = useQuery(query, variables)
+
+    if (!account){
+        countResult = useQuery(TRANSACTION_COUNT, {
+            pollInterval: 1000,
+        })    
+    }
 
     if (loading) return <TableLoader />
     if (error) return <div>Error :(</div>
+
+    if (account && data.transaction_aggregate){
+        countResult = {
+            data: data
+        }
+    }
 
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
         setPage(newPage);
