@@ -3,6 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Paper, Box} from '@material-ui/core';
 import Title from '../components/Title'
 import { NodesList } from '../components/Nodes/NodesList'
+import { NextSeo } from 'next-seo'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -18,6 +19,15 @@ export default function Nodes() {
 
     return (    
         <React.Fragment>
+            <NextSeo 
+                title="Nodes information on Flow network via Big Dipper explorer"
+                description="Flow has a unique multi-role architecture. Check out each node's address, type, ID, and staking power here."
+                openGraph={{
+                    url: "https://flow.bigdipper.live/nodes/",
+                    title: "Nodes information on Flow network via Big Dipper explorer",
+                    description: "Flow has a unique multi-role architecture. Check out each node's address, type, ID, and staking power here."
+                }}
+            />
             <Box my={2} className={classes.nodes}>
                 <Title title="Nodes" /> 
             </Box>
