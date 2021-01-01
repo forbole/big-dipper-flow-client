@@ -25,7 +25,7 @@ export default function Activity() {
           title={`Transaction details of ${id as string} on Flow network via Big Dipper explorer`}
           description="Check out a specific transacation's details on Flow network."
           openGraph={{
-              url: "https://flow.bigdipper.live/activities/",
+              url: `https://flow.bigdipper.live/tx/${id as string}`,
               title: `Transaction details of ${id as string} on Flow network via Big Dipper explorer`,
               description: "Check out a specific transacation's details on Flow network."
           }}
