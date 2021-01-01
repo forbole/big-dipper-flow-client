@@ -25,7 +25,7 @@ export default function Account() {
           title={`Account information of ${address as string} on Flow network via Big Dipper explorer`}
           description="Search account by account ID and see the account's detailed information on Flow network. "
           openGraph={{
-              url: "https://flow.bigdipper.live/activities/",
+              url: `https://flow.bigdipper.live/account/${address as string}`,
               title: `Account information of ${address as string} on Flow network via Big Dipper explorer`,
               description: "Search account by account ID and see the account's detailed information on Flow network. "
           }}
