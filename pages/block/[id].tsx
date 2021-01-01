@@ -11,6 +11,7 @@ import { BlockDetails } from '../../components/Blocks/BlockDetails'
 import { useQuery } from '@apollo/client'
 import { LATEST_HEIGHT } from '../../queries/chain'
 import numbro from 'numbro'
+import { NextSeo } from 'next-seo'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -36,6 +37,15 @@ export default function Block() {
 
   return (
     <React.Fragment>
+        <NextSeo 
+        title={`Block #${id as string} on Flow network via Big Dipper explorer`}
+        description={`Check out the detail information of block #${id as string} of Flow network.`}
+        openGraph={{
+          url: `https://flow.bigdipper.live/block/${id as string}`,
+          title: `Block #${id as string} on Flow network via Big Dipper explorer`,
+          description: `Check out the detail information of block #${id as string} of Flow network.`
+        }}
+      />
       <Box my={2} className={classes.blocks}>
         <Grid container>
           <Grid item xs={6} style={{marginTop:'0.5rem'}}>

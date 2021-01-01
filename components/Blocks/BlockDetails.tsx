@@ -124,7 +124,6 @@ export const BlockDetails = ({param}:BlockProps) => {
     const block = data.block[0]
     const timestamp = moment.unix(parseFloat(`${block.timestamp.seconds}.${block.timestamp.nanos}`))
 
-    console.log(block.blockSeals)
     return <React.Fragment>
         <Box mb={2}>
             <TableContainer component={Paper}>
