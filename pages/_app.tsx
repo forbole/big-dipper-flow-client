@@ -7,6 +7,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Theme from '../themes/Theme';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { init } from "@socialgouv/matomo-next"
+import { DefaultSeo } from 'next-seo'
+import SEO from '../next-seo.config'
 
 const client = new ApolloClient({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_HOST,
@@ -29,9 +31,9 @@ export default function BigDipper(props:any) {
   return (
     <React.Fragment>
       <Head>
-        <title>Big Dipper for Flow</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
+      <DefaultSeo {...SEO}/>
       <ThemeProvider theme={Theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
