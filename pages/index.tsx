@@ -3,13 +3,13 @@ import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/sty
 import { Paper, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core';
 import Title from '../components/Title'
 import { Dashboard } from '../components/Dashboard/Dashboard'
+import { NextSeo } from 'next-seo'
+import SEO from '../next-seo.config'
 
 export default function Index() {
     return (    
         <React.Fragment>
-            {/* <Box my={2}>
-                <Title title="Dashboard" />
-            </Box> */}
+            <NextSeo {...SEO}/>
             <Dashboard />
         </React.Fragment>
     )
