@@ -4,6 +4,7 @@ import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/sty
 import { Paper, Box} from '@material-ui/core'
 import Title from '../../components/Title'
 import { AccountDetails } from '../../components/Accounts/AccountDetails'
+import { NextSeo } from 'next-seo'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -20,6 +21,15 @@ export default function Account() {
 
   return (
     <React.Fragment>
+      <NextSeo 
+          title={`Account information of ${address as string} on Flow network via Big Dipper explorer`}
+          description="Search account by account ID and see the account's detailed information on Flow network. "
+          openGraph={{
+              url: "https://flow.bigdipper.live/activities/",
+              title: `Account information of ${address as string} on Flow network via Big Dipper explorer`,
+              description: "Search account by account ID and see the account's detailed information on Flow network. "
+          }}
+      />
       <Box my={2} className={classes.account}>
         <Title title={"Account "+address}/>
       </Box>
