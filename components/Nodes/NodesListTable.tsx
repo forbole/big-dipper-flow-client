@@ -1,7 +1,8 @@
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { NodeMetadata } from '../../types'
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core';
+import { NodeAvatar } from './NodeAvatar'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import { useQuery } from '@apollo/client';
 import { NODES, STAKING_NODES} from '../../queries/nodes'
@@ -16,7 +17,16 @@ const useStyles = makeStyles((theme: Theme) =>
         tableCell:{
             textOverflow: "ellipsis",
             overflow: 'hidden',
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
+        },
+        profileTableCell:{
+            display: 'flex',
+            alignItems: 'center'
+        },
+        profileImage: {
+            width: '2.5rem',
+            height: '2.5rem',
+            marginRight: '1rem'
         }
     }),
 )
@@ -24,21 +34,31 @@ const useStyles = makeStyles((theme: Theme) =>
 type TableProps = { type?: string }
 
 
-const getNodesMetadata = async () => {
-    const res = await fetch('https://raw.githubusercontent.com/forbole/flow-nodes-metadata/master/node-operator-metadata.json')
-    const nodeMetadata = await res.json()
+export const NodesListTable = ({type}:TableProps) => {
+    const classes = useStyles()
 
-    let nodesMetadata: {[key:string]:NodeMetadata}[] = new Array()
+    const [nodesMetadata, setMetadata] = useState(new Array());
 
-    for (let i in nodeMetadata.nodes){
-        nodesMetadata[nodeMetadata.nodes[i].node_id] = nodeMetadata.nodes[i]
+    const getNodesMetadata = async () => {
+        const res = await fetch('https://raw.githubusercontent.com/forbole/flow-nodes-metadata/master/node-operator-metadata.json')
+        const nodeMetadata = await res.json()
+    
+        let metadata: {[key:string]:NodeMetadata}[] = new Array()
+    
+        for (let i in nodeMetadata.nodes){
+            metadata[nodeMetadata.nodes[i].node_id] = nodeMetadata.nodes[i]
+        }
+
+        // console.log(metadata)
+        
+        setMetadata(metadata)
+        // return nodesMetadata
     }
 
-    return nodesMetadata
-}
 
-export const NodesListTable = async ({type}:TableProps) => {
-    const classes = useStyles()
+    useEffect(() => {
+        getNodesMetadata()
+    }, [])
 
     const { loading, error, data } = useQuery(NODES, {
         variables:{type:type}
@@ -49,8 +69,6 @@ export const NodesListTable = async ({type}:TableProps) => {
     if (loading || staking.loading) return <TableLoader />
     if (error || staking.error) return <div>Error :(</div>
 
-    let nodesMetadata:{[key:string]:NodeMetadata}[] = await getNodesMetadata()
-
     return <React.Fragment>
             <Box px={2}>No. of {type} nodes: {data.node_aggregate.aggregate.count}</Box>
             <TableContainer >
@@ -58,7 +76,7 @@ export const NodesListTable = async ({type}:TableProps) => {
             <TableHead>
                 <TableRow>
                     <TableCell style={{fontWeight:700}}>Name</TableCell>
-                    <TableCell style={{fontWeight:700}}>Address</TableCell>
+                    {/* <TableCell style={{fontWeight:700}}>Address</TableCell> */}
                     <TableCell style={{fontWeight:700}} align="right">Stake</TableCell>
                     <TableCell style={{fontWeight:700}}>Node Id</TableCell>
                 </TableRow>
@@ -66,8 +84,15 @@ export const NodesListTable = async ({type}:TableProps) => {
             <TableBody>
                 {data.node.map((node:any, i) => (
                 <TableRow key={i}>
-                    <TableCell className={`${classes.tableCell} monospace`}>{(nodesMetadata[node.node_id]&&nodesMetadata[node.node_id].name)?nodesMetadata[node.node_id].name:''}</TableCell>
-                    <TableCell className={`${classes.tableCell} monospace`}>{node.address}</TableCell>
+                    <TableCell className={`${classes.tableCell}`}>
+                        <NodeAvatar 
+                            name={(nodesMetadata[node.nodeId]&&nodesMetadata[node.nodeId].name)?nodesMetadata[node.nodeId].name:''}
+                            profileImage={(nodesMetadata[node.nodeId]&&nodesMetadata[node.nodeId].profile_image)?nodesMetadata[node.nodeId].profile_image:''}
+                            url={(nodesMetadata[node.nodeId]&&nodesMetadata[node.nodeId].website)?nodesMetadata[node.nodeId].website:''}
+                            nodeId={node.nodeId}
+                        />
+                    </TableCell>
+                    {/* <TableCell className={`${classes.tableCell}`}>{node.address}</TableCell> */}
                     <TableCell className={`${classes.tableCell} monospace`} align="right">{(staking.data&&staking.data.stakingNodes.nodes[node.nodeId])?numbro(staking.data.stakingNodes.nodes[node.nodeId]).format({thousandSeparated: true, mantissa: 8}):'N/A'}</TableCell>
                     <TableCell className={`${classes.tableCell} monospace`}>{node.nodeId}</TableCell>
                 </TableRow>
