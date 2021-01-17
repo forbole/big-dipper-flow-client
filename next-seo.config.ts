@@ -1,19 +1,19 @@
 export default {
-    title:"Flow network explorer presented by Big Dipper",
-    description:"Flow network explorer built by Forbole's Big Dipper team. See the network status, transacation details, account information here.",
+    title:"Flow Block Explorer presented by Big Dipper",
+    description:"Flow Block Explorer built by Forbole's Big Dipper team. See the network status, transacation details, account information here.",
     openGraph: {
         type: 'website',
         locale: 'en_US',
         url: 'https://flow.bigdipper.live/',
-        title: 'Flow network explorer presented by Big Dipper',
-        description: "Flow network explorer built by Forbole's Big Dipper team. See the network status, transacation details, account information here.",
+        title: 'Flow Block Explorer presented by Big Dipper',
+        description: "Flow Block Explorer built by Forbole's Big Dipper team. See the network status, transacation details, account information here.",
         images: [
           {
             url: 'https://flow.bigdipper.live/img/facebook-cover.png',
-            alt: 'Flow network explorer presented by Big Dipper',
+            alt: 'Flow Block Explorer presented by Big Dipper',
           },
         ],
-        site_name: 'Flow Big Dipper',
+        site_name: 'Flow Block Explorer | Big Dipper',
     },
     twitter: {
         handle: '@bigdipperlive',
