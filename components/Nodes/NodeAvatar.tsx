@@ -6,7 +6,10 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         profileBox:{
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
+            '& svg':{
+                marginRight: '1rem'
+            }
         },
         profileImage: {
             width: '2.5rem',
@@ -25,7 +28,6 @@ type AvatarProps = {
 
 export const NodeAvatar = ({name, profileImage, url, nodeId}: AvatarProps) => {
     const classes = useStyles()
-    console.log(profileImage)
     const image = (profileImage != '')?<img src={profileImage} className={classes.profileImage} />:<Jdenticon size="40" value={nodeId} />
     const link = (url != '')?<a href={url}>{name}</a>:<span>{name}</span>
     return <div className={classes.profileBox}>

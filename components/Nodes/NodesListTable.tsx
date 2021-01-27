@@ -6,6 +6,7 @@ import { NodeAvatar } from './NodeAvatar'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import { useQuery } from '@apollo/client';
 import { NODES, STAKING_NODES} from '../../queries/nodes'
+import utils from '../../utils'
 import { TableLoader } from '../Loaders'
 import numbro from 'numbro'
 
@@ -76,24 +77,26 @@ export const NodesListTable = ({type}:TableProps) => {
             <TableHead>
                 <TableRow>
                     <TableCell style={{fontWeight:700}}>Name</TableCell>
-                    {/* <TableCell style={{fontWeight:700}}>Address</TableCell> */}
+                    <TableCell style={{fontWeight:700}}>Address</TableCell>
                     <TableCell style={{fontWeight:700}} align="right">Stake</TableCell>
                     <TableCell style={{fontWeight:700}}>Node Id</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
-                {data.node.map((node:any, i) => (
+                {data.node.map((node:any, i:number) => (
                 <TableRow key={i}>
                     <TableCell className={`${classes.tableCell}`}>
                         <NodeAvatar 
-                            name={(nodesMetadata[node.nodeId]&&nodesMetadata[node.nodeId].name)?nodesMetadata[node.nodeId].name:''}
-                            profileImage={(nodesMetadata[node.nodeId]&&nodesMetadata[node.nodeId].profile_image)?nodesMetadata[node.nodeId].profile_image:''}
-                            url={(nodesMetadata[node.nodeId]&&nodesMetadata[node.nodeId].website)?nodesMetadata[node.nodeId].website:''}
+                            name={(nodesMetadata[node.nodeId]?.name)?nodesMetadata[node.nodeId].name:''}
+                            profileImage={(nodesMetadata[node.nodeId]?.profile_image)?nodesMetadata[node.nodeId].profile_image:''}
+                            url={(nodesMetadata[node.nodeId]?.website)?nodesMetadata[node.nodeId].website:''}
                             nodeId={node.nodeId}
                         />
                     </TableCell>
-                    {/* <TableCell className={`${classes.tableCell}`}>{node.address}</TableCell> */}
-                    <TableCell className={`${classes.tableCell} monospace`} align="right">{(staking.data&&staking.data.stakingNodes.nodes[node.nodeId])?numbro(staking.data.stakingNodes.nodes[node.nodeId]).format({thousandSeparated: true, mantissa: 8}):'N/A'}</TableCell>
+                    <TableCell className={`${classes.tableCell}`}>{node.address}</TableCell>
+                    <TableCell className={`${classes.tableCell} monospace`} align="right">
+                        {(staking.data?.stakingNodes.nodes[node.nodeId])?`${numbro(staking.data.stakingNodes.nodes[node.nodeId]).format({thousandSeparated: true, mantissa: 8})} ${utils.types.FLOW_DENOM}`:'N/A'}
+                    </TableCell>
                     <TableCell className={`${classes.tableCell} monospace`}>{node.nodeId}</TableCell>
                 </TableRow>
                 ))}
