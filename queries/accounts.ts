@@ -11,3 +11,13 @@ export const ACCOUNT = gql`
         }
     }
 `
+
+export const ACCOUNT_DETAIL = gql`
+    query getAccount($address: String!) {
+        lockedAccountAddress(address: $address)
+        lockedAccountBalance(address: $address)
+        unlockLimit(address: $address)
+        delegatorNodeInfo(address: $address)
+        stakerNodeInfo(address: $address)
+    }
+`

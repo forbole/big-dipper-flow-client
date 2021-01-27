@@ -8,8 +8,9 @@ import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 import CodeIcon from '@material-ui/icons/Code'
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser'
 import { loadCSS } from 'fg-loadcss'
-import { ACCOUNT } from '../../queries/accounts'
+import { ACCOUNT, ACCOUNT_DETAIL } from '../../queries/accounts'
 import { TRANSACTION_COUNT_BY_ACCOUNT } from '../../queries/transactions'
+import Link from 'next/link'
 import { ActivitiesList } from '../Activities/ActivitiesList'
 import { useQuery } from '@apollo/client'
 import moment from 'moment'
@@ -105,6 +106,10 @@ export const AccountDetails = ({address}:AccountProps) => {
         variables: {address:utils.hexToBase64(address as string)}
     })
 
+    const accountDetail = useQuery(ACCOUNT_DETAIL, {
+        variables: {address: address}
+    })
+
     const txCountResult = useQuery(TRANSACTION_COUNT_BY_ACCOUNT, {
       pollInterval: 10000,
       variables: {
@@ -125,13 +130,54 @@ export const AccountDetails = ({address}:AccountProps) => {
                 <Table aria-label="simple table">
                 <TableBody>
                     <TableRow>
-                        <TableCell component="th"><strong>Address</strong></TableCell>
-                        <TableCell>{address}</TableCell>
+                        <TableCell component="th"><strong>Account Balance</strong></TableCell>
+                        <TableCell className="monospace">{address}</TableCell>
+                        <TableCell className="monospace" align="right">{numbro(account.balance/utils.types.FLOW_FRACTION).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell component="th"><strong>Balance</strong></TableCell>
-                        <TableCell>{numbro(account.balance/utils.types.FLOW_FRACTION).format({thousandSeparated: true})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>
+                    {accountDetail.data?<>
+                    <TableRow>
+                        <TableCell component="th"><strong>Locked Account Balance</strong></TableCell>
+                        <TableCell><Link href={`/account/${accountDetail.data.lockedAccountAddress}`}><a className="monospace">{accountDetail.data.lockedAccountAddress}</a></Link></TableCell>
+                        <TableCell className="monospace" align="right">{numbro(accountDetail.data.lockedAccountBalance/utils.types.FLOW_FRACTION).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" colSpan={2}><strong>Unlock Limit</strong></TableCell>
+                        <TableCell className="monospace" align="right">{numbro(accountDetail.data.unlockLimit).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>
+                    {(accountDetail.data.delegatorNodeInfo.length > 0)?<>
+                    <TableRow>
+                        <TableCell component="th"><strong>Delegated Node ID</strong></TableCell>
+                        <TableCell className="monospace" colSpan={2}>{accountDetail.data.delegatorNodeInfo[0].nodeID}</TableCell>
+                    </TableRow>
+                    {(parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensCommitted)>0)?<TableRow>
+                      <TableCell component="th" colSpan={2}><strong>Tokens Committed</strong></TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{accountDetail.data.delegatorNodeInfo[0].tokensCommitted} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>:''}
+                    {(parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensStaked)>0)?<TableRow>
+                      <TableCell component="th" colSpan={2}><strong>Tokens Staked</strong></TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{accountDetail.data.delegatorNodeInfo[0].tokensStaked} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>:''}
+                    {(parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaking)>0)?<TableRow>
+                      <TableCell component="th" colSpan={2}><strong>Tokens Unstaking</strong></TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{accountDetail.data.delegatorNodeInfo[0].tokensUnstaking} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>:''}
+                    {(parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRewarded)>0)?<TableRow>
+                      <TableCell component="th" colSpan={2}><strong>Tokens Rewarded</strong></TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{accountDetail.data.delegatorNodeInfo[0].tokensRewarded} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>:''}
+                    {(parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaked)>0)?<TableRow>
+                      <TableCell component="th" colSpan={2}><strong>Tokens Unstaked</strong></TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{accountDetail.data.delegatorNodeInfo[0].tokensUnstaked} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>:''}
+                    {(parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRequestedToUnstake)>0)?<TableRow>
+                      <TableCell component="th" colSpan={2}><strong>Tokens Requested To Unstake</strong></TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{accountDetail.data.delegatorNodeInfo[0].tokensRequestedToUnstake} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>:''}
+                    </>:''}
+                    </>:''}
+                    
                 </TableBody>
                 </Table>
             </TableContainer>
