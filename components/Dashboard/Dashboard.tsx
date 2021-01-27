@@ -39,10 +39,10 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundPosition: 'right 2.3125rem top -1.8125rem'
         },
         cardD: {
-            backgroundImage: 'url(/img/icon-collection.svg)',
+            backgroundImage: 'url(/img/icon-payout.svg)',
             backgroundColor: theme.palette.secondary.light,
-            backgroundSize: '9.63375rem 11.5rem',
-            backgroundPosition: 'right -1.8375rem top 0.4375rem'
+            backgroundSize: '18.63375rem 11.5rem',
+            backgroundPosition: 'right -4.8375rem top 0.4375rem'
         },
         blocks: {
             paddingLeft: '2.5rem',
