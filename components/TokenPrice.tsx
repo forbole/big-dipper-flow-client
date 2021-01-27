@@ -22,28 +22,6 @@ const TokenPrice = () => {
     const classes = useStyles()
 
     const token = useTokePrice()
-    // const [token, setToken] = useState({
-    //     "usd":'',
-    //     "usd_market_cap": '',
-    //     "usd_24h_vol": '',
-    //     "usd_24h_change": '',
-    //     "last_updated_at": ''
-    // })
-    
-
-    // useEffect(() => {
-    //     const fetchFlowPrice = async () => {
-    //       const result = await axios(
-    //         'https://api.coingecko.com/api/v3/simple/price?ids=flow&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true',
-    //       );
-     
-    //       setToken(result.data.flow);
-    //     };
-     
-    //     fetchFlowPrice();
-
-    //     setInterval(fetchFlowPrice,10000)
-    // }, []);
 
     if (token.usd != ''){
 
