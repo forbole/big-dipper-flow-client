@@ -142,10 +142,10 @@ export const AccountDetails = ({address}:AccountProps) => {
                         <TableCell><Link href={`/account/${accountDetail.data.lockedAccountAddress}`}><a className="monospace">{accountDetail.data.lockedAccountAddress}</a></Link></TableCell>
                         <TableCell className="monospace" align="right">{numbro(accountDetail.data.lockedAccountBalance/utils.types.FLOW_FRACTION).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>
-                    <TableRow>
+                    {accountDetail.data.unlockLimit?<TableRow>
                         <TableCell component="th" colSpan={2}><strong>Unlock Limit</strong></TableCell>
                         <TableCell className="monospace" align="right">{(accountDetail.data.unlockLimit)?numbro(accountDetail.data.unlockLimit).format({thousandSeparated: true, mantissa: 8}):''} {utils.types.FLOW_DENOM}</TableCell>
-                    </TableRow>
+                    </TableRow>:''}
                     {(accountDetail.data.delegatorNodeInfo.length > 0)?<React.Fragment>
                     <TableRow>
                         <TableCell component="th"><strong>Delegated Node ID</strong></TableCell>
