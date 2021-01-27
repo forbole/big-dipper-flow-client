@@ -6,7 +6,9 @@ import { ActivitiesList } from '../Activities/ActivitiesList'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { CHAIN_STATUS } from '../../queries/chain'
 import { TRANSACTION_COUNT } from '../../queries/transactions'
+import { WEEKLY_PAYOUT } from '../../queries/staking'
 import { useQuery } from '@apollo/client'
+import utils from '../../utils'
 import numbro from 'numbro'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,10 +41,10 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundPosition: 'right 2.3125rem top -1.8125rem'
         },
         cardD: {
-            backgroundImage: 'url(/img/icon-collection.svg)',
+            backgroundImage: 'url(/img/icon-payout.svg)',
             backgroundColor: theme.palette.secondary.light,
-            backgroundSize: '9.63375rem 11.5rem',
-            backgroundPosition: 'right -1.8375rem top 0.4375rem'
+            backgroundSize: '18.63375rem 11.5rem',
+            backgroundPosition: 'right -4.8375rem top 0.4375rem'
         },
         blocks: {
             paddingLeft: '2.5rem',
@@ -67,6 +69,8 @@ export const Dashboard = () => {
     const countResult = useQuery(TRANSACTION_COUNT, {
         pollInterval: 2500
     })
+
+    const payout = useQuery(WEEKLY_PAYOUT)
 
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error :(</div>
@@ -99,9 +103,9 @@ export const Dashboard = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
             <Paper className={`${classes.card} ${mdMatches?classes.cardMd:''} ${classes.cardD}`}>
-                # of Accounts
+                Weekly Payout ({utils.types.FLOW_DENOM})
                 <Typography variant="h3">
-                    -
+                    {payout.data?numbro(payout.data.weeklyPayout).format({thousandSeparated: true}):''}
                 </Typography>
             </Paper>
             </Grid>
