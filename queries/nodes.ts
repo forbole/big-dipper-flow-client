@@ -31,3 +31,13 @@ export const NODE_INFO = gql`
         nodeInfo(nodeID: $nodeId)
     }
 `
+
+export const NODE_COUNT = gql`
+    query count{
+        node_aggregate {
+            aggregate {
+                count
+            }
+        }
+    }
+`

@@ -3,6 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Paper, Box} from '@material-ui/core';
 import Title from '../components/Title'
 import { NodesList } from '../components/Nodes/NodesList'
+import { StakingOverview } from '../components/Nodes/StakingOverview'
 import { NextSeo } from 'next-seo'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,8 +32,7 @@ export default function Staking() {
             <Box my={2} className={classes.nodes}>
                 <Title title="Staking" /> 
             </Box>
-            <Paper>
-            </Paper>
+            <StakingOverview />
             <Paper>
                 <NodesList />
             </Paper>

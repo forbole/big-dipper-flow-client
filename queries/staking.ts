@@ -1,9 +1,10 @@
 import { gql } from '@apollo/client';
 
-export const STAKING_STATUS = gql`
-    query stakingStatus{
-        totalStake
+export const STAKING_OVERVIEW = gql`
+    query stakingOverview {
+        cutPercentage
         getSupply
+        totalStake
         weeklyPayout
     }
 `;
@@ -19,4 +20,4 @@ export const WEEKLY_PAYOUT = gql`
     query weeklyPayout{
         weeklyPayout
     } 
-`
+` 
