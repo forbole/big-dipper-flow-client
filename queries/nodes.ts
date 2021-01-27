@@ -25,3 +25,9 @@ export const STAKING_NODES = gql`
         }
     }
 `;
+
+export const NODE_INFO = gql`
+    query NodeInfo($nodeId: String!) {
+        nodeInfo(nodeID: $nodeId)
+    }
+`

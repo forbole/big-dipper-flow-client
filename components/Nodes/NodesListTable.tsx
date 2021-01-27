@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { NodeMetadata } from '../../types'
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core';
 import { NodeAvatar } from './NodeAvatar'
+import { NodeDelegators } from './NodeDelegators'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import { useQuery } from '@apollo/client';
 import { NODES, STAKING_NODES} from '../../queries/nodes'
@@ -50,10 +51,7 @@ export const NodesListTable = ({type}:TableProps) => {
             metadata[nodeMetadata.nodes[i].node_id] = nodeMetadata.nodes[i]
         }
 
-        // console.log(metadata)
-        
         setMetadata(metadata)
-        // return nodesMetadata
     }
 
 
@@ -77,8 +75,8 @@ export const NodesListTable = ({type}:TableProps) => {
             <TableHead>
                 <TableRow>
                     <TableCell style={{fontWeight:700}}>Name</TableCell>
-                    <TableCell style={{fontWeight:700}}>Address</TableCell>
                     <TableCell style={{fontWeight:700}} align="right">Stake</TableCell>
+                    <TableCell style={{fontWeight:700}}>Delegators</TableCell>
                     <TableCell style={{fontWeight:700}}>Node Id</TableCell>
                 </TableRow>
             </TableHead>
@@ -93,10 +91,10 @@ export const NodesListTable = ({type}:TableProps) => {
                             nodeId={node.nodeId}
                         />
                     </TableCell>
-                    <TableCell className={`${classes.tableCell}`}>{node.address}</TableCell>
                     <TableCell className={`${classes.tableCell} monospace`} align="right">
                         {(staking.data?.stakingNodes.nodes[node.nodeId])?`${numbro(staking.data.stakingNodes.nodes[node.nodeId]).format({thousandSeparated: true, mantissa: 8})} ${utils.types.FLOW_DENOM}`:'N/A'}
                     </TableCell>
+                    <TableCell className={`${classes.tableCell}`}><NodeDelegators nodeId={node.nodeId} /></TableCell>
                     <TableCell className={`${classes.tableCell} monospace`}>{node.nodeId}</TableCell>
                 </TableRow>
                 ))}
