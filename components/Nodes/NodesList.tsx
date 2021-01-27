@@ -72,16 +72,16 @@ export const NodesList = () => {
 
     const nodeTypes = [
         {
-            type: 'execution',
-            label: 'Execution'
+            type: 'collection',
+            label: 'Collection'
         },
         {
             type: 'consensus',
             label: 'Consensus'
         },
         {
-            type: 'collection',
-            label: 'Collection'
+            type: 'execution',
+            label: 'Execution'
         },
         {
             type: 'verification',

@@ -190,8 +190,8 @@ const Layout = (props: { children: React.ReactNode; }) => {
             <Link href="/">
               <MenuItem component="a" className={isActive("", true)}>Dashboard</MenuItem>
             </Link>
-            <Link href="/nodes">
-              <MenuItem component="a" className={isActive("nodes")}>Nodes</MenuItem>
+            <Link href="/staking">
+              <MenuItem component="a" className={isActive("nodes")}>Staking</MenuItem>
             </Link>
             <Link href="/blocks">
               <MenuItem component="a" className={isActive("blocks")}>Blocks</MenuItem>
@@ -247,8 +247,8 @@ const Layout = (props: { children: React.ReactNode; }) => {
                     </Link>
                   </ListItem>
                   <ListItem button>
-                    <Link href="/nodes">
-                      <a><ListItemText primary="Nodes" /></a>
+                    <Link href="/staking">
+                      <a><ListItemText primary="Staking" /></a>
                     </Link>
                   </ListItem>
                   <ListItem button>
