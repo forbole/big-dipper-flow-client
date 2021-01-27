@@ -136,7 +136,7 @@ export const AccountDetails = ({address}:AccountProps) => {
                     </TableRow>
                     <TableRow>
                     </TableRow>
-                    {accountDetail.data?<>
+                    {accountDetail.data?<React.Fragment>
                     <TableRow>
                         <TableCell component="th"><strong>Locked Account Balance</strong></TableCell>
                         <TableCell><Link href={`/account/${accountDetail.data.lockedAccountAddress}`}><a className="monospace">{accountDetail.data.lockedAccountAddress}</a></Link></TableCell>
@@ -146,38 +146,95 @@ export const AccountDetails = ({address}:AccountProps) => {
                         <TableCell component="th" colSpan={2}><strong>Unlock Limit</strong></TableCell>
                         <TableCell className="monospace" align="right">{numbro(accountDetail.data.unlockLimit).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>
-                    {(accountDetail.data.delegatorNodeInfo.length > 0)?<>
+                    {(accountDetail.data.delegatorNodeInfo.length > 0)?<React.Fragment>
                     <TableRow>
                         <TableCell component="th"><strong>Delegated Node ID</strong></TableCell>
                         <TableCell className="monospace" colSpan={2}>{accountDetail.data.delegatorNodeInfo[0].nodeID}</TableCell>
                     </TableRow>
                     {(parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensCommitted)>0)?<TableRow>
                       <TableCell component="th" colSpan={2}><strong>Tokens Committed</strong></TableCell>
-                      <TableCell className="monospace" colSpan={2} align="right">{accountDetail.data.delegatorNodeInfo[0].tokensCommitted} {utils.types.FLOW_DENOM}</TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.delegatorNodeInfo[0].tokensCommitted).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>:''}
                     {(parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensStaked)>0)?<TableRow>
                       <TableCell component="th" colSpan={2}><strong>Tokens Staked</strong></TableCell>
-                      <TableCell className="monospace" colSpan={2} align="right">{accountDetail.data.delegatorNodeInfo[0].tokensStaked} {utils.types.FLOW_DENOM}</TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.delegatorNodeInfo[0].tokensStaked).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>:''}
                     {(parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaking)>0)?<TableRow>
                       <TableCell component="th" colSpan={2}><strong>Tokens Unstaking</strong></TableCell>
-                      <TableCell className="monospace" colSpan={2} align="right">{accountDetail.data.delegatorNodeInfo[0].tokensUnstaking} {utils.types.FLOW_DENOM}</TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.delegatorNodeInfo[0].tokensUnstaking).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>:''}
                     {(parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRewarded)>0)?<TableRow>
                       <TableCell component="th" colSpan={2}><strong>Tokens Rewarded</strong></TableCell>
-                      <TableCell className="monospace" colSpan={2} align="right">{accountDetail.data.delegatorNodeInfo[0].tokensRewarded} {utils.types.FLOW_DENOM}</TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.delegatorNodeInfo[0].tokensRewarded).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>:''}
                     {(parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaked)>0)?<TableRow>
                       <TableCell component="th" colSpan={2}><strong>Tokens Unstaked</strong></TableCell>
-                      <TableCell className="monospace" colSpan={2} align="right">{accountDetail.data.delegatorNodeInfo[0].tokensUnstaked} {utils.types.FLOW_DENOM}</TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.delegatorNodeInfo[0].tokensUnstaked).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>:''}
                     {(parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRequestedToUnstake)>0)?<TableRow>
                       <TableCell component="th" colSpan={2}><strong>Tokens Requested To Unstake</strong></TableCell>
-                      <TableCell className="monospace" colSpan={2} align="right">{accountDetail.data.delegatorNodeInfo[0].tokensRequestedToUnstake} {utils.types.FLOW_DENOM}</TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.delegatorNodeInfo[0].tokensRequestedToUnstake).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>:''}
+                    <TableRow>
+                      <TableCell component="th" colSpan={2} align="right"><strong>Total</strong></TableCell>
+                      <TableCell className="monospace" align="right">
+                        {
+                        numbro(account.balance/utils.types.FLOW_FRACTION + accountDetail.data.lockedAccountBalance 
+                        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensCommitted)
+                        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensStaked)
+                        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaking)
+                        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRewarded)
+                        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaked)
+                        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRequestedToUnstake)).format({thousandSeparated: true, mantissa: 8})
+                        } {utils.types.FLOW_DENOM}
+                      </TableCell>
+                    </TableRow>
+                    </React.Fragment>:<React.Fragment>
+                    {(accountDetail.data.stakerNodeInfo.length > 0)?<>
+                      <TableRow>
+                        <TableCell component="th"><strong>Staker Node ID</strong></TableCell>
+                        <TableCell className="monospace" colSpan={2}>{accountDetail.data.stakerNodeInfo[0].id}</TableCell>
+                    </TableRow>
+                    {(parseFloat(accountDetail.data.stakerNodeInfo[0].tokensCommitted)>0)?<TableRow>
+                      <TableCell component="th" colSpan={2}><strong>Tokens Committed</strong></TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.stakerNodeInfo[0].tokensCommitted).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>:''}
+                    {(parseFloat(accountDetail.data.stakerNodeInfo[0].tokensStaked)>0)?<TableRow>
+                      <TableCell component="th" colSpan={2}><strong>Tokens Staked</strong></TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.stakerNodeInfo[0].tokensStaked).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>:''}
+                    {(parseFloat(accountDetail.data.stakerNodeInfo[0].tokensUnstaking)>0)?<TableRow>
+                      <TableCell component="th" colSpan={2}><strong>Tokens Unstaking</strong></TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.stakerNodeInfo[0].tokensUnstaking).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>:''}
+                    {(parseFloat(accountDetail.data.stakerNodeInfo[0].tokensRewarded)>0)?<TableRow>
+                      <TableCell component="th" colSpan={2}><strong>Tokens Rewarded</strong></TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.stakerNodeInfo[0].tokensRewarded).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>:''}
+                    {(parseFloat(accountDetail.data.stakerNodeInfo[0].tokensUnstaked)>0)?<TableRow>
+                      <TableCell component="th" colSpan={2}><strong>Tokens Unstaked</strong></TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.stakerNodeInfo[0].tokensUnstaked).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>:''}
+                    {(parseFloat(accountDetail.data.stakerNodeInfo[0].tokensRequestedToUnstake)>0)?<TableRow>
+                      <TableCell component="th" colSpan={2}><strong>Tokens Requested To Unstake</strong></TableCell>
+                      <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.stakerNodeInfo[0].tokensRequestedToUnstake).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
+                    </TableRow>:''}
+                    <TableRow>
+                      <TableCell component="th" colSpan={2} align="right"><strong>Total</strong></TableCell>
+                      <TableCell className="monospace" align="right">
+                        {
+                        numbro(account.balance/utils.types.FLOW_FRACTION + accountDetail.data.lockedAccountBalance 
+                        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensCommitted)
+                        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensStaked)
+                        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensUnstaking)
+                        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensRewarded)
+                        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensUnstaked)
+                        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensRequestedToUnstake)).format({thousandSeparated: true, mantissa: 8})
+                        } {utils.types.FLOW_DENOM}
+                      </TableCell>
+                    </TableRow>
                     </>:''}
-                    </>:''}
-                    
+                    </React.Fragment>}</React.Fragment>:''}
                 </TableBody>
                 </Table>
             </TableContainer>
