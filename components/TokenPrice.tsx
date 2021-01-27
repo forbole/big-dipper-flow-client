@@ -3,6 +3,7 @@ import axios from 'axios';
 import { createStyles, fade, makeStyles, Theme, useTheme } from '@material-ui/core/styles'
 import { Paper, Container, Box, Typography, Grid } from '@material-ui/core'
 import numbro from 'numbro'
+import { useTokePrice } from '../components/Context/TokenProvider'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -20,27 +21,29 @@ const useStyles = makeStyles((theme: Theme) =>
 const TokenPrice = () => {
     const classes = useStyles()
 
-    const [token, setToken] = useState({
-        "usd":'',
-        "usd_market_cap": '',
-        "usd_24h_vol": '',
-        "usd_24h_change": '',
-        "last_updated_at": ''
-    })
+    const token = useTokePrice()
+    // const [token, setToken] = useState({
+    //     "usd":'',
+    //     "usd_market_cap": '',
+    //     "usd_24h_vol": '',
+    //     "usd_24h_change": '',
+    //     "last_updated_at": ''
+    // })
     
-    useEffect(() => {
-        const fetchFlowPrice = async () => {
-          const result = await axios(
-            'https://api.coingecko.com/api/v3/simple/price?ids=flow&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true',
-          );
-     
-          setToken(result.data.flow);
-        };
-     
-        fetchFlowPrice();
 
-        setInterval(fetchFlowPrice,10000)
-    }, []);
+    // useEffect(() => {
+    //     const fetchFlowPrice = async () => {
+    //       const result = await axios(
+    //         'https://api.coingecko.com/api/v3/simple/price?ids=flow&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true',
+    //       );
+     
+    //       setToken(result.data.flow);
+    //     };
+     
+    //     fetchFlowPrice();
+
+    //     setInterval(fetchFlowPrice,10000)
+    // }, []);
 
     if (token.usd != ''){
 
@@ -56,7 +59,7 @@ const TokenPrice = () => {
                     <strong>24h Volume:</strong> {numbro(token.usd_24h_vol).formatCurrency({ thousandSeparated:true, mantissa: 2 })}
                 </Grid>
                 <Grid item xs={12} sm={6} md={3}>
-                    <strong>24h Change:</strong> {numbro(token.usd_24h_change).formatCurrency({ thousandSeparated:true, mantissa: 2 })}
+                    <strong>24h Change:</strong> {numbro(token.usd_24h_change).format({ mantissa: 2 })}%
                 </Grid>    
             </Grid>
         </Paper>
