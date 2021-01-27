@@ -144,7 +144,7 @@ export const AccountDetails = ({address}:AccountProps) => {
                     </TableRow>
                     <TableRow>
                         <TableCell component="th" colSpan={2}><strong>Unlock Limit</strong></TableCell>
-                        <TableCell className="monospace" align="right">{numbro(accountDetail.data.unlockLimit).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
+                        <TableCell className="monospace" align="right">{(accountDetail.data.unlockLimit)?numbro(accountDetail.data.unlockLimit).format({thousandSeparated: true, mantissa: 8}):''} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>
                     {(accountDetail.data.delegatorNodeInfo.length > 0)?<React.Fragment>
                     <TableRow>
