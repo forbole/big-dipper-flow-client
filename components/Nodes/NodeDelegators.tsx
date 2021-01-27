@@ -16,5 +16,5 @@ export const NodeDelegators = ({nodeId}:NodeProps) => {
     
     console.log(data)
     
-    return <>{data.nodeInfo.delegatorIDCounter}</>
+    return <>{data?.nodeInfo?.delegatorIDCounter}</>
 }

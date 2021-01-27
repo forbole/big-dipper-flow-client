@@ -7,3 +7,9 @@ export const stakingStatus = gql`
         weeklyPayout
     }
 `;
+
+export const totalStakeByType = gql`
+    query totalStakeByType($role: Int!){
+        totalStakeByType(role: $role)
+    }
+`;

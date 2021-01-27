@@ -4,6 +4,7 @@ import { NodeMetadata } from '../../types'
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core';
 import { NodeAvatar } from './NodeAvatar'
 import { NodeDelegators } from './NodeDelegators'
+import { NodeSelfStake } from './NodeSelfStake'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import { useQuery } from '@apollo/client';
 import { NODES, STAKING_NODES} from '../../queries/nodes'
@@ -25,11 +26,11 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             alignItems: 'center'
         },
-        profileImage: {
-            width: '2.5rem',
-            height: '2.5rem',
-            marginRight: '1rem'
-        }
+        // profileImage: {
+        //     width: '2.5rem',
+        //     height: '2.5rem',
+        //     marginRight: '1rem'
+        // }
     }),
 )
 
@@ -75,6 +76,7 @@ export const NodesListTable = ({type}:TableProps) => {
             <TableHead>
                 <TableRow>
                     <TableCell style={{fontWeight:700}}>Name</TableCell>
+                    <TableCell style={{fontWeight:700}} align="right">Delegation</TableCell>
                     <TableCell style={{fontWeight:700}} align="right">Stake</TableCell>
                     <TableCell style={{fontWeight:700}}>Delegators</TableCell>
                     <TableCell style={{fontWeight:700}}>Node Id</TableCell>
@@ -94,7 +96,8 @@ export const NodesListTable = ({type}:TableProps) => {
                     <TableCell className={`${classes.tableCell} monospace`} align="right">
                         {(staking.data?.stakingNodes.nodes[node.nodeId])?`${numbro(staking.data.stakingNodes.nodes[node.nodeId]).format({thousandSeparated: true, mantissa: 8})} ${utils.types.FLOW_DENOM}`:'N/A'}
                     </TableCell>
-                    <TableCell className={`${classes.tableCell}`}><NodeDelegators nodeId={node.nodeId} /></TableCell>
+                    <TableCell className={`${classes.tableCell} monospace`} align="right"><NodeSelfStake nodeId={node.nodeId} /></TableCell>
+                    <TableCell className={`${classes.tableCell} monospace`}><NodeDelegators nodeId={node.nodeId} /></TableCell>
                     <TableCell className={`${classes.tableCell} monospace`}>{node.nodeId}</TableCell>
                 </TableRow>
                 ))}
