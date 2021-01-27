@@ -14,22 +14,22 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 )
 
-export default function Nodes() {
+export default function Staking() {
     const classes = useStyles()
 
     return (    
         <React.Fragment>
             <NextSeo 
-                title="Nodes information on Flow network via Big Dipper explorer"
+                title="Staking information on Flow network via Big Dipper explorer"
                 description="Flow has a unique multi-role architecture. Check out each node's address, type, ID, and staking power here."
                 openGraph={{
-                    url: "https://flow.bigdipper.live/nodes/",
+                    url: "https://flow.bigdipper.live/staking/",
                     title: "Nodes information on Flow network via Big Dipper explorer",
                     description: "Flow has a unique multi-role architecture. Check out each node's address, type, ID, and staking power here."
                 }}
             />
             <Box my={2} className={classes.nodes}>
-                <Title title="Nodes" /> 
+                <Title title="Staking" /> 
             </Box>
             <Paper>
                 <NodesList />
