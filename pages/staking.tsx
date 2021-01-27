@@ -32,6 +32,8 @@ export default function Staking() {
                 <Title title="Staking" /> 
             </Box>
             <Paper>
+            </Paper>
+            <Paper>
                 <NodesList />
             </Paper>
         </React.Fragment>

@@ -5,6 +5,7 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} 
 import { NodeAvatar } from './NodeAvatar'
 import { NodeDelegators } from './NodeDelegators'
 import { NodeSelfStake } from './NodeSelfStake'
+import { TypeStake } from './TypeStake'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import { useQuery } from '@apollo/client';
 import { NODES, STAKING_NODES} from '../../queries/nodes'
@@ -55,6 +56,25 @@ export const NodesListTable = ({type}:TableProps) => {
         setMetadata(metadata)
     }
 
+    let role = 0
+
+    switch (type){
+        case 'collection':
+            role = 1
+            break
+        case 'consensus':
+            role = 2
+            break
+        case 'execution':
+            role = 3
+            break
+        case 'verification':
+            role = 4
+            break
+        case 'access':
+            role = 5
+            break
+    }
 
     useEffect(() => {
         getNodesMetadata()
@@ -70,7 +90,7 @@ export const NodesListTable = ({type}:TableProps) => {
     if (error || staking.error) return <div>Error :(</div>
 
     return <React.Fragment>
-            <Box px={2}>No. of {type} nodes: {data.node_aggregate.aggregate.count}</Box>
+            <TypeStake role={role} count={data.node_aggregate.aggregate.count} />
             <TableContainer >
             <Table aria-label={`node-${type}`} className={classes.table} >
             <TableHead>
