@@ -14,3 +14,9 @@ export const TOTAL_STAKE_BY_TYPE = gql`
         nodeTypeRatio(role: $role)
     }
 `;
+
+export const WEEKLY_PAYOUT = gql`
+    query weeklyPayout{
+        weeklyPayout
+    } 
+`

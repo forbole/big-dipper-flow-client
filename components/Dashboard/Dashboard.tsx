@@ -6,7 +6,9 @@ import { ActivitiesList } from '../Activities/ActivitiesList'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { CHAIN_STATUS } from '../../queries/chain'
 import { TRANSACTION_COUNT } from '../../queries/transactions'
+import { WEEKLY_PAYOUT } from '../../queries/staking'
 import { useQuery } from '@apollo/client'
+import utils from '../../utils'
 import numbro from 'numbro'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -68,6 +70,8 @@ export const Dashboard = () => {
         pollInterval: 2500
     })
 
+    const payout = useQuery(WEEKLY_PAYOUT)
+
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error :(</div>
 
@@ -99,9 +103,9 @@ export const Dashboard = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
             <Paper className={`${classes.card} ${mdMatches?classes.cardMd:''} ${classes.cardD}`}>
-                # of Accounts
+                Weekly Payout ({utils.types.FLOW_DENOM})
                 <Typography variant="h3">
-                    -
+                    {payout.data?numbro(payout.data.weeklyPayout).format({thousandSeparated: true}):''}
                 </Typography>
             </Paper>
             </Grid>
