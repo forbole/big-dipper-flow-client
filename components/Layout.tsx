@@ -8,6 +8,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import Footer from './Footer'
+import { TokenProvider } from '../components/Context/TokenProvider'
 import TokenPrice from './TokenPrice'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -269,13 +270,15 @@ const Layout = (props: { children: React.ReactNode; }) => {
         </Toolbar>
         </Container>
       </AppBar>
-      <div className={classes.canvas} style={smMatches?{minHeight:'calc(100vh - 56px)'}:{minHeight:'calc(100vh - 64px)'}}>
-        <Container maxWidth="xl" component="main" className={classes.main}>
-          <TokenPrice />
-          {props.children}
-        </Container>
-        <Footer />
-      </div>
+      <TokenProvider>
+        <div className={classes.canvas} style={smMatches?{minHeight:'calc(100vh - 56px)'}:{minHeight:'calc(100vh - 64px)'}}>
+          <Container maxWidth="xl" component="main" className={classes.main}>
+            <TokenPrice />
+            {props.children}
+          </Container>
+          <Footer />
+        </div>
+      </TokenProvider>
     </React.Fragment>
   )
 }
