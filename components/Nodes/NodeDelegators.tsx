@@ -14,7 +14,7 @@ export const NodeDelegators = ({nodeId}:NodeProps) => {
     if (loading) return <>...</>
     if (error) return <>Error :(</>
     
-    console.log(data)
+    // console.log(data)
     
     return <>{data?.nodeInfo?.delegatorIDCounter}</>
 }
