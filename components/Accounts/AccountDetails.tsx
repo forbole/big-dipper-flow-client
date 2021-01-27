@@ -12,6 +12,7 @@ import { ACCOUNT, ACCOUNT_DETAIL } from '../../queries/accounts'
 import { TRANSACTION_COUNT_BY_ACCOUNT } from '../../queries/transactions'
 import Link from 'next/link'
 import { ActivitiesList } from '../Activities/ActivitiesList'
+import { useTokePrice } from '../Context/TokenProvider'
 import { useQuery } from '@apollo/client'
 import moment from 'moment'
 import utils from '../../utils'
@@ -74,6 +75,9 @@ const useStyles = makeStyles((theme: Theme) =>
         padding: theme.spacing(1),
         backgroundColor: theme.palette.grey[100],
         wordBreak: 'break-all'
+    },
+    totalAmount: {
+        color: theme.palette.text.secondary
     }
   }),
 );
@@ -119,10 +123,38 @@ export const AccountDetails = ({address}:AccountProps) => {
       }
     })
 
+    const token = useTokePrice()
+
     if (loading) return <div>Loading...</div>
     if (error) return <div>Error :(</div>
 
     const account = data.account
+
+    let totalToken = 0
+
+    if (accountDetail.data){
+      if (accountDetail.data.delegatorNodeInfo.length > 0){
+        totalToken = account.balance/utils.types.FLOW_FRACTION + accountDetail.data.lockedAccountBalance 
+        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensCommitted)
+        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensStaked)
+        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaking)
+        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRewarded)
+        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaked)
+        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRequestedToUnstake)
+      }
+      else if (accountDetail.data.stakerNodeInfo.length > 0){
+        totalToken = account.balance/utils.types.FLOW_FRACTION + accountDetail.data.lockedAccountBalance 
+        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensCommitted)
+        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensStaked)
+        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensUnstaking)
+        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensRewarded)
+        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensUnstaked)
+        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensRequestedToUnstake)
+      }
+      else {
+        totalToken = account.balance/utils.types.FLOW_FRACTION + parseFloat(accountDetail.data.lockedAccountBalance)
+      }
+    }
 
     return <React.Fragment>
         <Box mb={2}>
@@ -175,20 +207,6 @@ export const AccountDetails = ({address}:AccountProps) => {
                       <TableCell component="th" colSpan={2}><strong>Tokens Requested To Unstake</strong></TableCell>
                       <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.delegatorNodeInfo[0].tokensRequestedToUnstake).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>:''}
-                    <TableRow>
-                      <TableCell component="th" colSpan={2} align="right"><strong>Total</strong></TableCell>
-                      <TableCell className="monospace" align="right">
-                        {
-                        numbro(account.balance/utils.types.FLOW_FRACTION + accountDetail.data.lockedAccountBalance 
-                        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensCommitted)
-                        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensStaked)
-                        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaking)
-                        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRewarded)
-                        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaked)
-                        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRequestedToUnstake)).format({thousandSeparated: true, mantissa: 8})
-                        } {utils.types.FLOW_DENOM}
-                      </TableCell>
-                    </TableRow>
                     </React.Fragment>:<React.Fragment>
                     {(accountDetail.data.stakerNodeInfo.length > 0)?<>
                       <TableRow>
@@ -219,22 +237,19 @@ export const AccountDetails = ({address}:AccountProps) => {
                       <TableCell component="th" colSpan={2}><strong>Tokens Requested To Unstake</strong></TableCell>
                       <TableCell className="monospace" colSpan={2} align="right">{numbro(accountDetail.data.stakerNodeInfo[0].tokensRequestedToUnstake).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}</TableCell>
                     </TableRow>:''}
+                    </>:''}
+                    </React.Fragment>}</React.Fragment>:''}
                     <TableRow>
                       <TableCell component="th" colSpan={2} align="right"><strong>Total</strong></TableCell>
                       <TableCell className="monospace" align="right">
-                        {
-                        numbro(account.balance/utils.types.FLOW_FRACTION + accountDetail.data.lockedAccountBalance 
-                        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensCommitted)
-                        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensStaked)
-                        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensUnstaking)
-                        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensRewarded)
-                        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensUnstaked)
-                        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensRequestedToUnstake)).format({thousandSeparated: true, mantissa: 8})
-                        } {utils.types.FLOW_DENOM}
+                        {numbro(totalToken).format({thousandSeparated: true, mantissa: 8})} {utils.types.FLOW_DENOM}
                       </TableCell>
                     </TableRow>
-                    </>:''}
-                    </React.Fragment>}</React.Fragment>:''}
+                    <TableRow>
+                      <TableCell component="th" colSpan={3} align="right" className={classes.totalAmount}>
+                        {numbro(totalToken*parseFloat(token.usd)).formatCurrency({ thousandSeparated:true, mantissa: 2})}
+                      </TableCell>
+                    </TableRow>
                 </TableBody>
                 </Table>
             </TableContainer>
