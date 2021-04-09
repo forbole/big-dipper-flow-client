@@ -135,24 +135,24 @@ export const AccountDetails = ({address}:AccountProps) => {
     if (accountDetail.data){
       if (accountDetail.data.delegatorNodeInfo.length > 0){
         totalToken = account.balance/utils.types.FLOW_FRACTION + accountDetail.data.lockedAccountBalance 
-        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensCommitted)
-        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensStaked)
-        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaking)
-        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRewarded)
-        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaked)
-        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRequestedToUnstake)
+        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensCommitted?accountDetail.data.delegatorNodeInfo[0].tokensCommitted:0)
+        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensStaked?accountDetail.data.delegatorNodeInfo[0].tokensStaked:0)
+        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaking?accountDetail.data.delegatorNodeInfo[0].tokensUnstaking:0)
+        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRewarded?accountDetail.data.delegatorNodeInfo[0].tokensRewarded:0)
+        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensUnstaked?accountDetail.data.delegatorNodeInfo[0].tokensUnstaked:0)
+        + parseFloat(accountDetail.data.delegatorNodeInfo[0].tokensRequestedToUnstake?accountDetail.data.delegatorNodeInfo[0].tokensRequestedToUnstake:0)
       }
       else if (accountDetail.data.stakerNodeInfo.length > 0){
         totalToken = account.balance/utils.types.FLOW_FRACTION + accountDetail.data.lockedAccountBalance 
-        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensCommitted)
-        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensStaked)
-        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensUnstaking)
-        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensRewarded)
-        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensUnstaked)
-        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensRequestedToUnstake)
+        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensCommitted?accountDetail.data.stakerNodeInfo[0].tokensCommitted:0)
+        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensStaked?accountDetail.data.stakerNodeInfo[0].tokensStaked:0)
+        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensUnstaking?accountDetail.data.stakerNodeInfo[0].tokensUnstaking:0)
+        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensRewarded?accountDetail.data.stakerNodeInfo[0].tokensRewarded:0)
+        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensUnstaked?accountDetail.data.stakerNodeInfo[0].tokensUnstaked:0)
+        + parseFloat(accountDetail.data.stakerNodeInfo[0].tokensRequestedToUnstake?accountDetail.data.stakerNodeInfo[0].tokensRequestedToUnstake:0)
       }
       else {
-        totalToken = account.balance/utils.types.FLOW_FRACTION + parseFloat(accountDetail.data.lockedAccountBalance)
+        totalToken = account.balance/utils.types.FLOW_FRACTION + ((accountDetail.data.lockedAccountBalance)?parseFloat(accountDetail.data.lockedAccountBalance):0)
       }
     }
 
