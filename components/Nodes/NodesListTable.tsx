@@ -114,7 +114,7 @@ export const NodesListTable = ({type}:TableProps) => {
                         />
                     </TableCell>
                     <TableCell className={`${classes.tableCell} monospace`} align="right">
-                        {(staking.data?.stakingNodes.nodes[node.nodeId])?`${numbro(staking.data.stakingNodes.nodes[node.nodeId]).format({thousandSeparated: true, mantissa: 8})} ${utils.types.FLOW_DENOM}`:'N/A'}
+                        {(staking.data?.stakingNodes?.nodes && staking.data?.stakingNodes?.nodes[node.nodeId])?`${numbro(staking.data.stakingNodes.nodes[node.nodeId]).format({thousandSeparated: true, mantissa: 8})} ${utils.types.FLOW_DENOM}`:'N/A'}
                     </TableCell>
                     <TableCell className={`${classes.tableCell} monospace`} align="right"><NodeSelfStake nodeId={node.nodeId} /></TableCell>
                     <TableCell className={`${classes.tableCell} monospace`}><NodeDelegators nodeId={node.nodeId} /></TableCell>
