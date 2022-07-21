@@ -89,11 +89,11 @@ export const ActivitiesList = ({size, home = false, account}:ListProps) => {
     }
     const { loading, error, data } = useQuery(query, variables)
 
-    if (!account){
+    // if (!account){
         countResult = useQuery(TRANSACTION_COUNT, {
             pollInterval: 1000,
         })    
-    }
+    // }
 
     if (loading) return <TableLoader />
     if (error) return <div>Error :(</div>
@@ -155,7 +155,7 @@ export const ActivitiesList = ({size, home = false, account}:ListProps) => {
                 component="div"
                 count={countResult.data?Math.ceil(countResult.data.transaction_aggregate.aggregate.count/rowsPerPage):100}
                 page={page}
-                onChangePage={handleChangePage}
+                onPageChange={handleChangePage}
                 rowsPerPage={rowsPerPage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
             />}

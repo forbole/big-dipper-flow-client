@@ -66,7 +66,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     heading: {
       fontSize: theme.typography.pxToRem(15),
-      fontWeight: theme.typography.fontWeightRegular,
+    //   fontWeight: theme.typography.fontWeightRegular,
+        fontWeight: "normal",
     },
     well: {
         padding: theme.spacing(1),
@@ -78,9 +79,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type ActivityProps = {id: string}
 
-export const ActivityDetails = ({id}:ActivityProps) => {
+export const ActivityDetails = ({id = "0x0000000000"}:ActivityProps) => {
 
-    if (!id) return <div></div>
+    // if (!id) return <div></div>
 
     const classes = useStyles();
 

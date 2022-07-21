@@ -112,7 +112,7 @@ export const BlocksList = ({size, home = false}:ListProps) => {
                 component="div"
                 count={countResult.data?Math.ceil(countResult.data.block_aggregate.aggregate.count/rowsPerPage):100}
                 page={page}
-                onChangePage={handleChangePage}
+                onPageChange={handleChangePage}
                 rowsPerPage={rowsPerPage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
             />}

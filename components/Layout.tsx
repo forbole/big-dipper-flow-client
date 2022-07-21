@@ -62,31 +62,29 @@ const useStyles = makeStyles((theme: Theme) =>
         }
       }
     },
+    mainMenuWrapper: {
+      display: 'flex',
+      width: '100%'
+    },
     search: {
       position: 'relative',
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: fade(theme.palette.secondary.main, 0.15),
-      '&:hover': {
-        backgroundColor: fade(theme.palette.secondary.main, 0.25),
-      },
       width: '100%',
       marginLeft: 0,
       [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(1),
         width: 'auto',
       },
-      borderColor: theme.palette.primary.main,
-      borderWidth: '1px',
       flexGrow: 1,
-      marginTop: '-0.28rem'
+      marginTop: '0.675rem'
     },
     searchIcon: {
       padding: theme.spacing(0, 2),
+      marginTop: '0.375rem',
       height: '100%',
       position: 'absolute',
       pointerEvents: 'none',
       display: 'flex',
-      alignItems: 'center',
+      // alignItems: 'center',
       justifyContent: 'center'
     },
     inputRoot: {
@@ -99,6 +97,14 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
       transition: theme.transitions.create('width'),
       width: '100%',
+      borderColor: theme.palette.primary.main,
+      borderWidth: '1px',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: fade(theme.palette.secondary.main, 0.15),
+      '&:hover': {
+        backgroundColor: fade(theme.palette.secondary.main, 0.25),
+      },
+
       // [theme.breakpoints.up('sm')]: {
       //   width: '12ch',
       //   '&:focus': {
@@ -188,7 +194,7 @@ const Layout = (props: { children: React.ReactNode; }) => {
                 <img src="/img/flow-logo.svg" className={classes.logo}/>
             </Typography>
           </Box>
-          <Hidden xsDown>
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }} className={classes.mainMenuWrapper}>
             <Link href="/">
               <MenuItem component="a" className={isActive("", true)}>Dashboard</MenuItem>
             </Link>
@@ -217,8 +223,8 @@ const Layout = (props: { children: React.ReactNode; }) => {
                 }}
               />
             </div>
-          </Hidden>
-          <Hidden smUp>
+          </Box>
+          <Box sx={{ display: { sm: 'block', md: 'none' } }}>
             <IconButton edge="start" className={classes.menuButton} onClick={toggleDrawer(true)} color="inherit" aria-label="menu">
               <MenuIcon />
             </IconButton>
@@ -227,21 +233,21 @@ const Layout = (props: { children: React.ReactNode; }) => {
                 <List component="nav" aria-label="dashboard staking blocks activities">
                   <ListItem button>
                   <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Height / Account / Tx"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ 
-                  'aria-label': 'search',
-                  onKeyDown: search
-                }}
-              />
-            </div>
+                    <div className={classes.searchIcon}>
+                      <SearchIcon />
+                    </div>
+                    <InputBase
+                      placeholder="Height / Account / Tx"
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                      }}
+                      inputProps={{ 
+                        'aria-label': 'search',
+                        onKeyDown: search
+                      }}
+                    />
+                  </div>
                   </ListItem>
                   <ListItem button>
                     <Link href="/">
@@ -266,7 +272,7 @@ const Layout = (props: { children: React.ReactNode; }) => {
                 </List>
               </div>
             </Drawer>
-          </Hidden>
+          </Box>
         </Toolbar>
         </Container>
       </AppBar>

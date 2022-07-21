@@ -41,7 +41,7 @@ const Footer = () => {
                         <img src="/img/big-dipper-logo-light.svg" title="Big Dipper for Flow" className={classes.logo}/>
                         <Box pl={1.25}>
                             <Typography variant="caption" component="div">
-                            Big Dipper for Flow - presented by <a href="https://forbole.com" target="_blank" className={classes.forboleLink}>Forbole</a>
+                            Big Dipper for Flow - presented by <a href="https://forbole.com" target="_blank" rel="noreferrer" className={classes.forboleLink}>Forbole</a>
                             </Typography>
                         </Box> 
                     </Box>
