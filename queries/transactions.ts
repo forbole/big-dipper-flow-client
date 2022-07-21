@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const TRANSACTIONS_LIST = gql`
-    query TransactionsList($limit: Int = 10, $offset: Int = 0, $order: [transaction_order_by!] = {height: desc}) {
+    query TransactionsList($limit: Int = 10, $offset: Int = 0, $order: [transaction_order_by!] = {height: desc_nulls_last}) {
         transaction(limit: $limit, order_by: $order, offset: $offset) {
             id
             payer
@@ -16,7 +16,7 @@ export const TRANSACTIONS_LIST = gql`
 `
 
 export const TRANSACTIONS_LIST_BY_ACCOUNT = gql`
-    query TransactionsList($limit: Int = 10, $offset: Int = 0, $order: [transaction_order_by!] = {height: desc}, $proposalKey: jsonb) {
+    query TransactionsList($limit: Int = 10, $offset: Int = 0, $order: [transaction_order_by!] = {height: desc_nulls_last}, $proposalKey: jsonb) {
         transaction(limit: 10, order_by: $order, offset: $offset, where: {proposalKey: {_contains: $proposalKey}}) {
             collectionId
             height
