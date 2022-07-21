@@ -84,8 +84,10 @@ export const NodesListTable = ({type}:TableProps) => {
         variables:{type:type}
     })
 
+    console.log(data)
     const staking = useQuery(STAKING_NODES)
 
+    console.log(staking)
     if (loading || staking.loading) return <TableLoader />
     if (error || staking.error) return <div>Error :(</div>
 

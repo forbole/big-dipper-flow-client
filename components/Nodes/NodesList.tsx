@@ -63,12 +63,12 @@ export const NodesList = () => {
         };
     }, []);
 
-    const { loading, error, data } = useQuery(NODES, {
+    // const { loading, error, data } = useQuery(NODES, {
         
-    })
+    // })
 
-    if (loading) return <TableLoader />
-    if (error) return <div>Error :(</div>
+    // if (loading) return <TableLoader />
+    // if (error) return <div>Error :(</div>
 
     const nodeTypes = [
         {
