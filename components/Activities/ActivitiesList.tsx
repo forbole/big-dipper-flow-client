@@ -155,7 +155,7 @@ export const ActivitiesList = ({size, home = false, account}:ListProps) => {
                 component="div"
                 count={countResult.data?Math.ceil(countResult.data.transaction_aggregate.aggregate.count/rowsPerPage):100}
                 page={page}
-                onChangePage={handleChangePage}
+                onPageChange={handleChangePage}
                 rowsPerPage={rowsPerPage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
             />}
