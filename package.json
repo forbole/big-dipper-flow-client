@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@apollo/client": "^3.1.3",
@@ -15,22 +16,25 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@socialgouv/matomo-next": "^1.1.2",
+    "@types/react-dom": "^18.0.6",
     "axios": "^0.21.1",
     "fg-loadcss": "^3.1.0",
     "graphql": "^15.3.0",
     "moment": "^2.27.0",
-    "next": "^9.5.1",
+    "next": "^12.2.2",
     "next-seo": "^4.17.0",
     "numbro": "^2.3.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^18",
+    "react-dom": "^18",
     "react-jdenticon": "^0.0.8",
     "react-json-view": "^1.19.1",
     "react-syntax-highlighter": "^13.5.3"
   },
   "devDependencies": {
-    "@types/node": "^14.0.27",
-    "@types/react": "^16.9.44",
-    "typescript": "^3.9.7"
+    "@types/node": "^18.0.6",
+    "@types/react": "^18.0.15",
+    "eslint": "8.20.0",
+    "eslint-config-next": "12.2.2",
+    "typescript": "^4.3.2"
   }
 }
