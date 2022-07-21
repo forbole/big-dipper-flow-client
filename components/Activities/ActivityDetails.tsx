@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type ActivityProps = {id: string}
 
-export const ActivityDetails = ({id}:ActivityProps) => {
+export const ActivityDetails = ({id = "0x0000000000"}:ActivityProps) => {
 
     // if (!id) return <div></div>
 
