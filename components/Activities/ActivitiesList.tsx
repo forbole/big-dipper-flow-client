@@ -89,11 +89,11 @@ export const ActivitiesList = ({size, home = false, account}:ListProps) => {
     }
     const { loading, error, data } = useQuery(query, variables)
 
-    if (!account){
+    // if (!account){
         countResult = useQuery(TRANSACTION_COUNT, {
             pollInterval: 1000,
         })    
-    }
+    // }
 
     if (loading) return <TableLoader />
     if (error) return <div>Error :(</div>

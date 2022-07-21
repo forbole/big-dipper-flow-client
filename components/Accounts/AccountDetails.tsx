@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
 type AccountProps = {address: string}
 
 export const AccountDetails = ({address}:AccountProps) => {
-    if (!address) return <div></div>
+    // if (!address) return <div></div>
 
     const classes = useStyles();
 

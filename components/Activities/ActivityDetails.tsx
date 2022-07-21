@@ -80,7 +80,7 @@ type ActivityProps = {id: string}
 
 export const ActivityDetails = ({id}:ActivityProps) => {
 
-    if (!id) return <div></div>
+    // if (!id) return <div></div>
 
     const classes = useStyles();
 
