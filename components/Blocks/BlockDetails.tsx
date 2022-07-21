@@ -174,9 +174,9 @@ export const BlockDetails = ({param}:BlockProps) => {
                 <Paper variant="outlined" square className={`${classes.well} monospace`}>
                     <Typography variant="caption">
                         {block.collections.map(col => {
-                            return <React.Fragment>
+                            return <React.Fragment key={col.id}>
                                 <List dense key={col.id}>{col.transactionIds.map(tx => {
-                                    return <ListItem>
+                                    return <ListItem key={col.id}>
                                     <ListItemIcon>
                                         <FolderOpenIcon />
                                     </ListItemIcon>
