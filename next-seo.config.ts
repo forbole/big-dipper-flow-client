@@ -9,7 +9,7 @@ export default {
         description: "Flow Block Explorer built by Forbole's Big Dipper team. See the network status, transacation details, account information here.",
         images: [
           {
-            url: 'https://flow.bigdipper.live/img/facebook-cover.png',
+            url: 'https://s3.bigdipper.live/flow.png',
             alt: 'Flow Block Explorer presented by Big Dipper',
           },
         ],
